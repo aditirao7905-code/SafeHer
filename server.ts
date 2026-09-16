@@ -1,0 +1,363 @@
+import express from "express";
+import path from "path";
+import dotenv from "dotenv";
+import { GoogleGenAI } from "@google/genai";
+import { createServer as createViteServer } from "vite";
+
+dotenv.config();
+
+const app = express();
+const PORT = 3000;
+
+app.use(express.json());
+
+// API health endpoint
+app.get("/api/health", (req, res) => {
+  res.json({ status: "ok", app: "SafeHer" });
+});
+
+// Helper for situational, context-aware, non-repetitive safety guidance
+function getSituationalSafetyAdvice(
+  message: string,
+  lengthPreference: string = "short",
+  preferredLanguage?: string
+): string {
+  const lower = message.toLowerCase();
+  let isHindi = false;
+
+  if (preferredLanguage === "hindi" || preferredLanguage === "hi" || preferredLanguage === "hi-IN") {
+    isHindi = true;
+  } else if (preferredLanguage === "english" || preferredLanguage === "en" || preferredLanguage === "en-IN") {
+    isHindi = false;
+  } else {
+    isHindi =
+      /[\u0900-\u097F]/.test(message) ||
+      lower.includes("kya") ||
+      lower.includes("hai") ||
+      lower.includes("raha") ||
+      lower.includes("bachao") ||
+      lower.includes("madad") ||
+      lower.includes("batao") ||
+      lower.includes("kaise") ||
+      lower.includes("karu") ||
+      lower.includes("karoon") ||
+      lower.includes("chahiye");
+  }
+
+  // 0. Developer / Creator Identity query (Aditi Rao, Age 20, Lucknow, 2026)
+  if (
+    lower.includes("develop") ||
+    lower.includes("creator") ||
+    lower.includes("banaya") ||
+    lower.includes("banayi") ||
+    lower.includes("maker") ||
+    lower.includes("owner") ||
+    lower.includes("who made") ||
+    lower.includes("aditi") ||
+    lower.includes("lucknow") ||
+    lower.includes("kab banaya") ||
+    lower.includes("who created") ||
+    lower.includes("kisne banaya") ||
+    lower.includes("kisne banayi") ||
+    lower.includes("developer")
+  ) {
+    if (isHindi) {
+      return `👩‍💻 **SafeHer Developer Details**:\n\nSafeHer app को **Aditi Rao** ने develop किया है।\n- **Developer**: Aditi Rao\n- **Age**: 20 वर्ष\n- **Location**: Lucknow, Uttar Pradesh\n- **Year**: 2026\n\nAditi Rao ने SafeHer को महिलाओं व लड़कियों की सुरक्षा और आपातकालीन सहायता के लिए बनाया है, जिसमें Instant SOS, Live GPS, Fake Call, Safe Route और AI Voice Assistant जैसी अत्याधुनिक सुविधाएं दी गई हैं।`;
+    } else {
+      return `👩‍💻 **SafeHer Developer Details**:\n\nSafeHer was developed by **Aditi Rao**.\n- **Developer**: Aditi Rao\n- **Age**: 20 years old\n- **Location**: Lucknow, Uttar Pradesh, India\n- **Developed in**: 2026\n\nAditi Rao created SafeHer with the vision of empowering women and girls with silent emergency alerts, live GPS broadcast, instant helplines, and smart AI safety tactical assistance.`;
+    }
+  }
+
+  // 0.1 Confusion, Panic, or "Kuch samjh nhi aara" queries
+  if (
+    lower.includes("samjh") ||
+    lower.includes("samajh") ||
+    lower.includes("kuch nahi") ||
+    lower.includes("kuch nhi") ||
+    lower.includes("confus") ||
+    lower.includes("panic") ||
+    lower.includes("ghabra") ||
+    lower.includes("kya karu") ||
+    lower.includes("kya karun") ||
+    lower.includes("lost") ||
+    lower.includes("help me")
+  ) {
+    if (isHindi) {
+      return `🌸 **घबराइए मत, मैं आपके साथ हूं। तुरंत ये 3 कदम उठाएं:**\n\n1. **रोशनी या भीड़ में जाएं**: तुरंत किसी खुली दुकान, पेट्रोल पंप, या लोगों के पास जाएं।\n2. **SafeHer Live GPS भेजें**: स्क्रीन पर 'Live Location' बटन दबाकर परिवार को WhatsApp पर लोकेशन शेयर करें।\n3. **तुरंत 112 मिलाएं**: अगर कोई भी खतरा महसूस हो रहा है, तो ऊपर लाल **SOS** बटन दबाएं या सीधे **112** (आपातकालीन नंबर) पर कॉल करें।\n\nआप बिल्कुल सुरक्षित हैं। मुझे बताएं कि आप अभी कहां हैं?`;
+    } else {
+      return `🌸 **Stay calm, I am here with you. Take these 3 immediate steps:**\n\n1. **Move to Light & People**: Step into any open shop, restaurant, or well-lit area near people.\n2. **Share Live Location**: Tap SafeHer's 'Live Location' and share your GPS track with trusted contacts on WhatsApp.\n3. **Dial 112 or Tap SOS**: If you feel any danger, tap the red SOS button or call **112** (National Emergency Helpline) immediately.\n\nYou are safe. Tell me what is happening around you right now?`;
+    }
+  }
+
+  const isShort = lengthPreference === "short";
+  const isDetailed = lengthPreference === "detailed";
+
+  // 1. Cab / Auto / Taxi / Driver Emergency
+  if (
+    lower.includes("cab") ||
+    lower.includes("taxi") ||
+    lower.includes("auto") ||
+    lower.includes("driver") ||
+    lower.includes("route") ||
+    lower.includes("rasta") ||
+    lower.includes("gaadi") ||
+    lower.includes("uber") ||
+    lower.includes("ola")
+  ) {
+    if (isHindi) {
+      if (isShort) {
+        return `🚨 कैब/ड्राइवर इमरजेंसी (तुरंत 3 कदम):\n1. SafeHer 'Live Location' से WhatsApp पर लोकेशन भेजें।\n2. ड्राइवर को ज़ोर से बोलें: 'मेन रोड पर गाड़ी रोकिए, 112 डायल हो रहा है।'\n3. दरवाज़ा खोलें (चाइल्ड-लॉक चेक करें) और तुरंत 112 मिलाएं।`;
+      }
+      return `🚨 कैब/ऑटो ड्राइवर गलत रास्ते पर हो तो तुरंत ये कदम उठाएं:\n\n1. **लाइव लोकेशन भेजें**: तुरंत SafeHer के 'Live Location' बटन से परिवार को WhatsApp पर लोकेशन भेजें।\n2. **ज़ोर से फोन पर बात करें**: ड्राइवर को सुनाकर बोलें: 'भैया मैं कैब में हूं, गाड़ी नंबर नोट कर लो, मैं 5 मिनट में पहुंच रही हूं।'\n3. **ड्राइवर को सीधे टोकें**: 'गाड़ी मेन रोड पर रखो, तुरंत किसी पेट्रोल पंप या दुकान के पास रोको।'\n4. **डोर लॉक चेक करें**: चेक करें कि चाइल्ड-लॉक न लगा हो और गेट अंदर से खुल रहा हो।\n5. **तुरंत 112 मिलाएं**: अगर ड्राइवर न माने, तो तुरंत 112 डायल करें या SafeHer का SOS बटन दबाएं।`;
+    } else {
+      if (isShort) {
+        return `🚨 Cab Emergency (3 Quick Steps):\n1. Share SafeHer Live GPS on WhatsApp with family.\n2. Loudly command driver: 'Keep on main highway, pull over at nearest shop.'\n3. Check child-lock off and dial 112 immediately.`;
+      }
+      return `🚨 Immediate steps if your cab/auto driver is taking a wrong route:\n\n1. **Broadcast Live GPS**: Tap SafeHer's 'Live Location' and share your live track on WhatsApp with family.\n2. **Make a Loud Phone Call**: Speak clearly so driver hears: 'I am in this cab right now, noting down vehicle number. Wait outside for me.'\n3. **Firmly Command to Stop**: Tell the driver: 'Keep to the main lit highway. Pull over near the petrol pump or grocery shop.'\n4. **Check Rear Locks**: Verify child-lock is off and door opens from inside.\n5. **Dial 112 Instantly**: If the driver ignores you or turns away from roads, dial **112** or trigger SafeHer SOS immediately.`;
+    }
+  }
+
+  // 2. Being Followed / Stalker / Someone suspicious behind
+  if (
+    lower.includes("follow") ||
+    lower.includes("chase") ||
+    lower.includes("piche") ||
+    lower.includes("stalk") ||
+    lower.includes("darr") ||
+    lower.includes("scared") ||
+    lower.includes("ladka") ||
+    lower.includes("aadmi") ||
+    lower.includes("alone") ||
+    lower.includes("dark") ||
+    lower.includes("sunsaan")
+  ) {
+    if (isHindi) {
+      if (isShort) {
+        return `⚠️ पीछा किए जाने पर तुरंत:\n1. सड़क पार करें और किसी खुली दुकान या गार्ड वाले ATM में घुसें।\n2. SafeHer Fake Call चालू करके कान पर लगाएं।\n3. हाथ में चाबी रखें और 112 / 1090 पर कॉल करें।`;
+      }
+      return `⚠️ अगर कोई आपका पीछा कर रहा हो:\n\n1. **सड़क पार करें**: तुरंत दूसरी तरफ जाएं ताकि साफ़ हो जाए कि वो पीछा कर रहा है। कभी भी सुनसान गली में न मुड़ें।\n2. **किसी खुली दुकान/ATM में घुसें**: तुरंत किसी किराना स्टोर, होटल लॉबी या 24x7 गार्ड वाले बैंक ATM में घुस जाएं।\n3. **SafeHer Fake Call का इस्तेमाल करें**: फोन कान पर लगाएं और ज़ोर से कहें: 'मैं बस 2 कदम दूर हूं, बाहर निकलो।'\n4. **हाथ में चाबी रखें**: अगर ज़रूरत पड़े तो चाबियों को उंगलियों के बीच रखकर सुरक्षा के लिए तैयार रहें।\n5. **112 / 1090 पर कॉल करें**: बिना देर किए 112 (पुलिस) या 1090 (महिला हेल्पलाइन) मिलाएं।`;
+    } else {
+      if (isShort) {
+        return `⚠️ Being Followed (Immediate Actions):\n1. Cross the street diagonally into an open shop or guarded 24/7 ATM.\n2. Turn on SafeHer Fake Call and speak loudly.\n3. Hold keys between knuckles and dial 112 / 1090.`;
+      }
+      return `⚠️ Tactical emergency actions if you are being followed:\n\n1. **Cross the Road**: Cross diagonally to verify if they change direction with you. Do NOT take dark shortcuts.\n2. **Enter a Lit Business or Guarded ATM**: Step inside any open store, restaurant, metro station, or 24/7 ATM with a guard.\n3. **Trigger SafeHer Fake Call**: Hold phone to ear and loudly state: 'I am right at the corner, see you in 1 minute.'\n4. **Hold Keys Between Knuckles**: Keep your hands free, chin up, and project confidence.\n5. **Dial 112 / 1090**: Tap SOS or call **112** (Police) / **1090** (Women Power Line) immediately.`;
+    }
+  }
+
+  // 3. Physical Attack / Grab / Self Defense
+  if (
+    lower.includes("attack") ||
+    lower.includes("grab") ||
+    lower.includes("pakad") ||
+    lower.includes("defense") ||
+    lower.includes("hit") ||
+    lower.includes("chhu") ||
+    lower.includes("haath")
+  ) {
+    if (isHindi) {
+      if (isShort) {
+        return `🥋 आत्मरक्षा के 3 त्वरित प्रहार:\n1. आंखों या नाक पर हथेली के निचले हिस्से से वार करें।\n2. पीछे से पकड़े जाने पर उसके पैर के पंजे पर एड़ी पटकें और कोहनी से मारें।\n3. ज़ोर से 'आग' चिल्लाएं और भीड़ की तरफ दौड़कर 112 मिलाएं।`;
+      }
+      return `🥋 आत्मरक्षा (Self Defense) के तुरंत असरदार तरीके:\n\n1. **कमज़ोर अंगों पर वार करें**: हमलावर की आंखों, नाक, गले (Trachea), या ग्रोइन (Groin) पर पूरी ताकत से वार करें।\n2. **पीछे से पकड़े जाने पर**: अपनी एड़ी से उसके पैर के पंजों (Instep) पर जोर से पैर पटकें और कोहनी से पसलियों पर मारें।\n3. **शोर मचाएं (ज़ोर से 'आग' या 'बचाओ' चिल्लाएं)**: 'बचाओ' की तुलना में 'आग' (Fire) सुनकर लोग बहुत तेज़ी से दौड़कर आते हैं।\n4. **पकड़ से छूटते ही दौड़ें**: किसी भी भीड़भाड़ वाले इलाके की तरफ भागें और तुरंत SafeHer SOS व **112** डायल करें।`;
+    } else {
+      if (isShort) {
+        return `🥋 Fast Self Defense Targets:\n1. Palm strike to nose or throat; kick to groin.\n2. If grabbed from behind, heel stomp on foot arch and elbow ribs.\n3. Scream 'FIRE' loudly and sprint to lit area. Dial 112.`;
+      }
+      return `🥋 Immediate high-impact self defense tactics:\n\n1. **Strike Vulnerable Target Zones**: Target eyes (palm heel strike), throat/windpipe, bridge of nose, or groin.\n2. **If Grabbed from Behind**: Stomp heel down hard on their foot arch/instep, drive an elbow backwards into solar plexus/ribs.\n3. **Shout 'FIRE' Loudly**: Psychological studies show screaming 'FIRE' draws bystanders faster than 'HELP'.\n4. **Break and Sprint**: The moment grip loosens, sprint toward light and people; trigger SOS and dial **112**.`;
+    }
+  }
+
+  // 4. Eve Teasing / Harassment / Cyber / Evidence
+  if (
+    lower.includes("harass") ||
+    lower.includes("teas") ||
+    lower.includes("ched") ||
+    lower.includes("photo") ||
+    lower.includes("video") ||
+    lower.includes("threat") ||
+    lower.includes("dhamki") ||
+    lower.includes("fir") ||
+    lower.includes("legal") ||
+    lower.includes("adhikar")
+  ) {
+    if (isHindi) {
+      return `⚖️ छेड़छाड़ या धमकी के खिलाफ आपके कानूनी अधिकार:\n\n1. **Zero FIR**: घटना चाहे कहीं भी हुई हो, किसी भी थाने में Zero FIR दर्ज कराना आपका कानूनी अधिकार है।\n2. **सबूत जुटाएं**: SafeHer के 'Incident Report' टूल से तारीख और समय के साथ वीडियो/फोटो सुरक्षित करें।\n3. **1090 महिला हेल्पलाइन**: उत्तर प्रदेश व राष्ट्रीय महिला हेल्पलाइन 1090 / 181 पर कॉल करके बिना थाने जाए शिकायत दर्ज करा सकती हैं।\n4. **पहचान की गोपनीयता**: कानून के तहत आपकी पहचान पूरी तरह गुप्त रखी जाएगी।\n5. **धारा 354 IPC / BNS**: पीछा करने, घूरने या अनुचित स्पर्श के खिलाफ सख्त गैर-जमानती प्रावधान हैं।`;
+    } else {
+      return `⚖️ Legal protections & action against harassment:\n\n1. **Zero FIR**: You can register a FIR at ANY police station irrespective of jurisdiction under Indian law.\n2. **Record Evidence**: Use SafeHer 'Incident Report' tool to capture timestamped photo/video documentation.\n3. **Dial 1090 / 181**: Women Power Line 1090 allows direct reporting without public exposure.\n4. **Confidentiality Guaranteed**: Law strictly mandates victim identity protection under Sec 228A.\n5. **Action under BNS / Sec 354**: Stalking, voyeurism, and assault are cognizable offenses.`;
+    }
+  }
+
+  // 5. Default situational safety answer
+  if (isHindi) {
+    return `🛡️ SafeHer सुरक्षा निर्देश:\n\n- यदि आप किसी भी आपात स्थिति या खतरे में हैं, तुरंत ऊपर लाल **SOS** बटन दबाएं।\n- **112** (राष्ट्रीय आपातकालीन नंबर) या **1090** (महिला पावर लाइन) पर सीधे कॉल करें।\n- मुझे अपनी सटीक परेशानी बताएं (जैसे: 'कैब वाला बात नहीं सुन रहा', 'कोई पीछे आ रहा है', 'अंधेरे रास्ते में फंसी हूं') ताकि मैं सटीक कदम बता सकूं।`;
+  } else {
+    return `🛡️ SafeHer Safety Instructions:\n\n- If you are facing any threat or danger right now, tap the red **SOS** button immediately.\n- Direct emergency dials: **112** (National Emergency), **1090** (Women Helpline), **108** (Ambulance), **100** (Police PCR).\n- Please specify your exact situation (e.g., 'driver deviating route', 'suspicious person walking behind me') for instant customized guidance.`;
+  }
+}
+
+// AI Safety Assistant Endpoint
+app.post("/api/assistant", async (req, res) => {
+  const message = (req.body.message || req.body.prompt || req.body.query || "").toString().trim();
+  const history = req.body.history || [];
+  const locationContext = req.body.locationContext;
+  const lengthPreference = (req.body.lengthPreference || "short").toString();
+  const preferredLang = (req.body.language || req.body.lang || req.body.inputLang || "").toString().toLowerCase();
+
+  if (!message) {
+    return res.status(400).json({ error: "A message or prompt string is required." });
+  }
+
+  const lowerMsg = message.toLowerCase();
+  const isDevQuery =
+    lowerMsg.includes("develop") ||
+    lowerMsg.includes("creator") ||
+    lowerMsg.includes("banaya") ||
+    lowerMsg.includes("banayi") ||
+    lowerMsg.includes("maker") ||
+    lowerMsg.includes("owner") ||
+    lowerMsg.includes("who made") ||
+    lowerMsg.includes("aditi") ||
+    lowerMsg.includes("lucknow") ||
+    lowerMsg.includes("kab banaya") ||
+    lowerMsg.includes("who created") ||
+    lowerMsg.includes("kisne banaya") ||
+    lowerMsg.includes("kisne banayi") ||
+    lowerMsg.includes("kisne develop");
+
+  if (isDevQuery) {
+    const devReply = getSituationalSafetyAdvice(message, lengthPreference, preferredLang);
+    return res.json({ reply: devReply, text: devReply });
+  }
+
+  const apiKey = process.env.GEMINI_API_KEY;
+
+  if (apiKey) {
+    try {
+      const ai = new GoogleGenAI({
+        apiKey,
+        httpOptions: {
+          headers: {
+            "User-Agent": "aistudio-build",
+          },
+        },
+      });
+
+      const langDirective =
+        preferredLang.includes("hi") || preferredLang === "hindi"
+          ? "CRITICAL MANDATE: Respond in HINDI (हिंदी) or natural conversational Hinglish as commonly spoken in India."
+          : preferredLang.includes("en") || preferredLang === "english"
+          ? "CRITICAL MANDATE: Respond strictly in concise, direct ENGLISH."
+          : "Respond in the exact same language or dialect (Hindi, Hinglish, English) as the user message.";
+
+      const systemInstruction = `You are "SafeHer AI", a high-vigilance, rapid-response Women Safety & Emergency Assistant.
+
+${langDirective}
+
+DEVELOPER & CREATION DETAILS:
+- SafeHer was developed by Aditi Rao, a 20-year-old female developer from Lucknow, Uttar Pradesh, India, created in 2026 for women and girls' safety.
+
+RESPONSE RULES:
+1. DESIRED LENGTH: ${lengthPreference}.
+   - If "short" (DEFAULT): Deliver exactly 2 to 3 sharp, bulleted, immediate physical/emergency action steps that can be read or spoken aloud in under 6 seconds.
+   - If "medium": 3 to 4 structured safety steps.
+   - If "detailed": In-depth self-defense, laws (Zero FIR, Sec 354 BNS), and emergency helpline numbers.
+2. SITUATION GUIDANCE:
+   - Cab/Taxi route diversion: Share live GPS on WhatsApp, firmly order driver to pull over at public shop/petrol pump, call 112 immediately if he doesn't comply.
+   - Stalker/Followed: Cross street, enter lit store/guarded ATM, use SafeHer Fake Call, hold keys, call 112 / 1090.
+   - Physical attack: Eye strike, throat strike, groin kick, stomp foot arch, yell "FIRE", sprint to safety.
+3. HELPLINES: 112 (National Emergency), 1090 (Women Helpline), 108 (Ambulance). Keep response ultra-fast and direct.`;
+
+      const contents: any[] = [];
+      if (Array.isArray(history)) {
+        for (const item of history.slice(-4)) {
+          if (item.text) {
+            contents.push({
+              role: item.sender === "user" || item.role === "user" ? "user" : "model",
+              parts: [{ text: item.text }],
+            });
+          }
+        }
+      }
+
+      let userPrompt = message;
+      if (locationContext) {
+        userPrompt += `\n[User GPS: ${locationContext}]`;
+      }
+      userPrompt += `\n[Preferred Language: ${preferredLang || "match-input"}]`;
+      userPrompt += `\n[Length: ${lengthPreference}]`;
+
+      contents.push({
+        role: "user",
+        parts: [{ text: userPrompt }],
+      });
+
+      // Ultra-fast model call with 1800ms limit for emergency rapid analysis
+      const maxTokens = lengthPreference === "short" ? 220 : lengthPreference === "medium" ? 450 : 800;
+
+      const tryModel = async (model: string, timeoutMs: number = 1800): Promise<string> => {
+        const timeoutPromise = new Promise<string>((_, reject) =>
+          setTimeout(() => reject(new Error(`Timeout after ${timeoutMs}ms`)), timeoutMs)
+        );
+        const apiPromise = (async () => {
+          const res = await ai.models.generateContent({
+            model,
+            contents,
+            config: {
+              systemInstruction,
+              temperature: 0.4,
+              maxOutputTokens: maxTokens,
+            },
+          });
+          return res.text || "";
+        })();
+        return Promise.race([apiPromise, timeoutPromise]);
+      };
+
+      let responseText = "";
+      try {
+        // Fast primary model: gemini-3.1-flash-lite
+        responseText = await tryModel("gemini-3.1-flash-lite", 1800);
+      } catch (err: any) {
+        try {
+          // Fallback model: gemini-3.8-flash
+          responseText = await tryModel("gemini-3.8-flash", 1500);
+        } catch (subErr: any) {
+          // Will fall through to instant deterministic engine
+        }
+      }
+
+      if (responseText) {
+        return res.json({ reply: responseText, text: responseText });
+      }
+    } catch (e: any) {
+      console.log("Notice: Gemini assistant error, using instant safety intelligence:", e?.message || e);
+    }
+  }
+
+  // Guaranteed situational, context-aware fallback in user's language (< 2ms)
+  const reply = getSituationalSafetyAdvice(message, lengthPreference, preferredLang);
+  return res.json({ reply, text: reply });
+});
+
+// Vite middleware setup
+async function startServer() {
+  if (process.env.NODE_ENV !== "production") {
+    const vite = await createViteServer({
+      server: { middlewareMode: true },
+      appType: "spa",
+    });
+    app.use(vite.middlewares);
+  } else {
+    const distPath = path.join(process.cwd(), "dist");
+    app.use(express.static(distPath));
+    app.get("*", (req, res) => {
+      res.sendFile(path.join(distPath, "index.html"));
+    });
+  }
+
+  app.listen(PORT, "0.0.0.0", () => {
+    console.log(`SafeHer server running on http://localhost:${PORT}`);
+  });
+}
+
+startServer();

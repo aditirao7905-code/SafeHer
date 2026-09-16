@@ -1,0 +1,12 @@
+{
+  "name": "SafeHer",
+  "description": "Smart Women Safety Assistant with one-tap SOS emergency alert, live GPS location sharing, fake escape call, safe route tracker, voice distress detection, and AI safety assistant.",
+  "requestFramePermissions": [
+    "geolocation",
+    "microphone",
+    "camera"
+  ],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
