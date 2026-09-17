@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Phone, PhoneOff, Mic, Volume2, ShieldCheck, User } from "lucide-react";
+import { Phone, PhoneOff, Mic, Volume2, User, Grid3X3 } from "lucide-react";
 import { soundManager } from "../utils/audio";
 
 interface FakeCallModalProps {
@@ -17,11 +17,13 @@ export const FakeCallModal: React.FC<FakeCallModalProps> = ({
   const [callSeconds, setCallSeconds] = useState<number>(0);
   const [isMuted, setIsMuted] = useState(false);
   const [isSpeaker, setIsSpeaker] = useState(true);
+  const [isKeypadOpen, setIsKeypadOpen] = useState(false);
 
   useEffect(() => {
     if (isOpen) {
       setCallState("ringing");
       setCallSeconds(0);
+      setIsKeypadOpen(false);
       soundManager.startRingtone();
 
       // Trigger realistic phone vibration if supported
@@ -59,26 +61,10 @@ export const FakeCallModal: React.FC<FakeCallModalProps> = ({
   const handleAnswer = () => {
     soundManager.stopRingtone();
     setCallState("connected");
-
-    // Optional browser speech synthesis for realistic conversation
-    if ("speechSynthesis" in window) {
-      try {
-        window.speechSynthesis.cancel();
-        const utterance = new SpeechSynthesisUtterance(
-          "Hey beta, where are you right now? I am waiting right here near the main road. Please come out quickly, I'm watching for you."
-        );
-        utterance.rate = 0.95;
-        utterance.pitch = 1.05;
-        window.speechSynthesis.speak(utterance);
-      } catch (e) {}
-    }
   };
 
   const handleDecline = () => {
     soundManager.stopRingtone();
-    if ("speechSynthesis" in window) {
-      window.speechSynthesis.cancel();
-    }
     onClose();
   };
 
@@ -102,41 +88,54 @@ export const FakeCallModal: React.FC<FakeCallModalProps> = ({
         <p className="text-sm font-semibold tracking-wider uppercase mt-4 text-emerald-400 animate-pulse">
           {callState === "ringing" ? "Incoming Call..." : formatTimer(callSeconds)}
         </p>
-
-        {callState === "connected" && (
-          <div className="mt-4 px-4 py-2 rounded-xl bg-slate-900/80 border border-slate-800 text-center max-w-xs">
-            <p className="text-xs text-slate-300 italic">
-              "Hey beta, where are you? I'm waiting for you right outside at the corner..."
-            </p>
-          </div>
-        )}
       </div>
 
-      {/* Middle Controls (When Connected) */}
+      {/* Middle Controls (When Connected) - Pure Native Dialer Style without any app branding */}
       {callState === "connected" ? (
-        <div className="grid grid-cols-3 gap-6 my-auto max-w-xs mx-auto w-full">
-          <button
-            onClick={() => setIsMuted(!isMuted)}
-            className={`flex flex-col items-center gap-1.5 py-3 rounded-2xl cursor-pointer ${
-              isMuted ? "bg-white text-slate-900" : "bg-slate-900 text-slate-300"
-            }`}
-          >
-            <Mic className="w-6 h-6" />
-            <span className="text-[11px]">Mute</span>
-          </button>
-          <button
-            onClick={() => setIsSpeaker(!isSpeaker)}
-            className={`flex flex-col items-center gap-1.5 py-3 rounded-2xl cursor-pointer ${
-              isSpeaker ? "bg-white text-slate-900" : "bg-slate-900 text-slate-300"
-            }`}
-          >
-            <Volume2 className="w-6 h-6" />
-            <span className="text-[11px]">Speaker</span>
-          </button>
-          <div className="flex flex-col items-center gap-1.5 py-3 rounded-2xl bg-slate-900 text-slate-300">
-            <ShieldCheck className="w-6 h-6 text-emerald-400" />
-            <span className="text-[11px]">Safe Escape</span>
+        <div className="flex flex-col items-center my-auto w-full max-w-xs mx-auto">
+          <div className="grid grid-cols-3 gap-6 w-full">
+            <button
+              onClick={() => setIsMuted(!isMuted)}
+              className={`flex flex-col items-center gap-1.5 py-3 rounded-2xl cursor-pointer transition-colors ${
+                isMuted ? "bg-white text-slate-900" : "bg-slate-900 text-slate-300 hover:bg-slate-800"
+              }`}
+            >
+              <Mic className="w-6 h-6" />
+              <span className="text-[11px]">Mute</span>
+            </button>
+            <button
+              onClick={() => setIsKeypadOpen(!isKeypadOpen)}
+              className={`flex flex-col items-center gap-1.5 py-3 rounded-2xl cursor-pointer transition-colors ${
+                isKeypadOpen ? "bg-white text-slate-900" : "bg-slate-900 text-slate-300 hover:bg-slate-800"
+              }`}
+            >
+              <Grid3X3 className="w-6 h-6" />
+              <span className="text-[11px]">Keypad</span>
+            </button>
+            <button
+              onClick={() => setIsSpeaker(!isSpeaker)}
+              className={`flex flex-col items-center gap-1.5 py-3 rounded-2xl cursor-pointer transition-colors ${
+                isSpeaker ? "bg-white text-slate-900" : "bg-slate-900 text-slate-300 hover:bg-slate-800"
+              }`}
+            >
+              <Volume2 className="w-6 h-6" />
+              <span className="text-[11px]">Speaker</span>
+            </button>
           </div>
+
+          {/* Optional Keypad Overlay when user taps Keypad */}
+          {isKeypadOpen && (
+            <div className="mt-5 grid grid-cols-3 gap-3 w-full bg-slate-900/90 p-4 rounded-3xl border border-slate-800 animate-fadeIn">
+              {["1", "2", "3", "4", "5", "6", "7", "8", "9", "*", "0", "#"].map((num) => (
+                <div
+                  key={num}
+                  className="w-12 h-12 mx-auto rounded-full bg-slate-800/80 flex items-center justify-center text-lg font-semibold text-white shadow-inner active:bg-slate-700"
+                >
+                  {num}
+                </div>
+              ))}
+            </div>
+          )}
         </div>
       ) : (
         <div className="text-center my-auto">

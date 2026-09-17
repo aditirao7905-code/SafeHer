@@ -29,6 +29,12 @@ export interface IncidentReport {
   videoRecordedDate?: string;
   videoRecordedTime?: string;
   videoTimestamp?: string;
+  photoUrl?: string;
+  photoName?: string;
+  photoRecordedDate?: string;
+  photoRecordedTime?: string;
+  photoTimestamp?: string;
+  evidenceLocation?: string;
   createdAt: number;
 }
 
