@@ -660,6 +660,7 @@ export default function App() {
           onClose={() => setIsSafeRouteOpen(false)}
           userLat={location.latitude}
           userLng={location.longitude}
+          contacts={contacts}
         />
 
         <SafetyScoreModal

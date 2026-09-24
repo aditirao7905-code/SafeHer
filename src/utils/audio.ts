@@ -133,6 +133,40 @@ class SoundManager {
       console.warn("Could not play safe chime:", e);
     }
   }
+
+  // Pulsed urgent beep for route deviation warnings
+  private deviationInterval: any = null;
+
+  startDeviationWarning() {
+    try {
+      this.stopDeviationWarning();
+      const playTone = () => {
+        const ctx = this.getContext();
+        const now = ctx.currentTime;
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.type = 'square';
+        osc.frequency.setValueAtTime(850, now);
+        gain.gain.setValueAtTime(0.35, now);
+        gain.gain.exponentialRampToValueAtTime(0.01, now + 0.3);
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.start(now);
+        osc.stop(now + 0.3);
+      };
+      playTone();
+      this.deviationInterval = setInterval(playTone, 800);
+    } catch (e) {
+      console.warn("Could not start deviation warning:", e);
+    }
+  }
+
+  stopDeviationWarning() {
+    if (this.deviationInterval) {
+      clearInterval(this.deviationInterval);
+      this.deviationInterval = null;
+    }
+  }
 }
 
 export const soundManager = new SoundManager();
