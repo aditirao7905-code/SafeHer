@@ -44,7 +44,7 @@ function getSituationalSafetyAdvice(
       lower.includes("chahiye");
   }
 
-  // 0. Developer / Creator Identity query (Aditi Rao, Age 20, Lucknow, 2026)
+  // 0. Developer / Creator Identity query (Aditi Rao - Founder, Engineer & Role Model)
   if (
     lower.includes("develop") ||
     lower.includes("creator") ||
@@ -59,12 +59,44 @@ function getSituationalSafetyAdvice(
     lower.includes("who created") ||
     lower.includes("kisne banaya") ||
     lower.includes("kisne banayi") ||
-    lower.includes("developer")
+    lower.includes("developer") ||
+    lower.includes("role model") ||
+    lower.includes("inspiration") ||
+    lower.includes("prerna") ||
+    lower.includes("thought") ||
+    lower.includes("vichar") ||
+    lower.includes("quote") ||
+    lower.includes("philosophy") ||
+    lower.includes("soch")
   ) {
     if (isHindi) {
-      return `👩‍💻 **SafeHer Developer Details**:\n\nSafeHer app को **Aditi Rao** ने develop किया है।\n- **Developer**: Aditi Rao\n- **Age**: 20 वर्ष\n- **Location**: Lucknow, Uttar Pradesh\n- **Year**: 2026\n\nAditi Rao ने SafeHer को महिलाओं व लड़कियों की सुरक्षा और आपातकालीन सहायता के लिए बनाया है, जिसमें Instant SOS, Live GPS, Fake Call, Safe Route और AI Voice Assistant जैसी अत्याधुनिक सुविधाएं दी गई हैं।`;
+      return `🌟 **Aditi Rao — SafeHer की संस्थापक, सॉफ्टवेयर इंजीनियर एवं यूथ रोल मॉडल**:
+
+SafeHer को **Aditi Rao** (उम्र: 20 वर्ष, लखनऊ, उत्तर प्रदेश) ने महिलाओं और बालिकाओं की सुरक्षा के उद्देश्य से वर्ष 2026 में विकसित किया है।
+
+💡 **अदिति राव का प्रेरक विचार (Core Thought & Vision)**:
+> **"Technology should not only make our lives easier, it should make our lives safer."**
+> *(हिंदी अनुवाद: "तकनीक का उद्देश्य केवल हमारे जीवन को आसान बनाना ही नहीं, बल्कि हमारे जीवन को अधिक सुरक्षित और भयमुक्त बनाना भी होना चाहिए।")*
+
+👑 **अदिति राव के बारे में मुख्य बातें एवं उपलब्धियां**:
+1. **प्रतिभाशाली सॉफ्टवेयर इंजीनियर**: मात्र 20 वर्ष की आयु में लखनऊ (उत्तर प्रदेश) की अदिति राव ने इस संपूर्ण जीवन-रक्षक सुरक्षा प्लेटफॉर्म को स्वयं डिज़ाइन, कोड और विकसित किया है।
+2. **SafeHer का उद्देश्य**: महिलाओं, छात्राओं और कामकाजी युवतियों को निर्भय होकर यात्रा करने और अपनी सुरक्षा सुनिश्चित करने के लिए उन्होंने Instant SOS, लाइव लोकेशन ट्रैकिंग, फेक कॉल और सुरक्षा टूल्स जैसी आधुनिक सुविधाएं बनाईं।
+3. **सहानुभूति और सामाजिक सरोकार (Tech For Good)**: अदिति का मानना है कि सच्ची तकनीक वही है जो हर महिला को आत्मनिर्भर बनाए और मानवीय जीवन की रक्षा करे।
+4. **लखनऊ और पूरे भारत का गौरव**: इतनी कम उम्र में ऐसा महत्वपूर्ण और उपयोगी कदम उठाकर अदिति राव आज देश भर की युवा बेटियों, छात्राओं और भविष्य के कोडर्स के लिए एक प्रेरणास्रोत और आदर्श (Role Model) हैं। Proud of Aditi Rao! 🇮🇳✨`;
     } else {
-      return `👩‍💻 **SafeHer Developer Details**:\n\nSafeHer was developed by **Aditi Rao**.\n- **Developer**: Aditi Rao\n- **Age**: 20 years old\n- **Location**: Lucknow, Uttar Pradesh, India\n- **Developed in**: 2026\n\nAditi Rao created SafeHer with the vision of empowering women and girls with silent emergency alerts, live GPS broadcast, instant helplines, and smart AI safety tactical assistance.`;
+      return `🌟 **Aditi Rao — Founder, Lead Engineer of SafeHer & Youth Role Model**:
+
+SafeHer was engineered and developed by **Aditi Rao** (Age: 20, Lucknow, Uttar Pradesh, India) in 2026 to ensure the safety and empowerment of women and girls.
+
+💡 **Aditi Rao's Signature Thought & Vision**:
+> **“Technology should not only make our lives easier, it should make our lives safer.”**
+> *(Hindi: "तकनीक का उद्देश्य केवल हमारे जीवन को आसान बनाना ही नहीं, बल्कि हमारे जीवन को अधिक सुरक्षित और भयमुक्त बनाना भी होना चाहिए।")*
+
+👑 **About Aditi Rao & Her Vision**:
+1. **Exceptional Software Engineer**: At just 20 years of age, Aditi Rao from Lucknow, Uttar Pradesh, designed, coded, and developed this complete life-saving safety platform.
+2. **Purpose-Driven Innovation**: Driven by deep empathy for women's real-world safety challenges, she created SafeHer with 1-tap SOS alerts, live GPS tracking, emergency fake calls, and comprehensive safety assistance so women can travel and live fearlessly.
+3. **Tech For Social Impact (Tech For Good)**: Aditi firmly advocates that technology must prioritize human safety over convenience alone.
+4. **Pride of Lucknow & India**: Her leadership and dedication make her an inspiring role model for young girls, students, and aspiring technologists across India. Proud of Aditi Rao! 🇮🇳✨`;
     }
   }
 
@@ -207,28 +239,6 @@ app.post("/api/assistant", async (req, res) => {
     return res.status(400).json({ error: "A message or prompt string is required." });
   }
 
-  const lowerMsg = message.toLowerCase();
-  const isDevQuery =
-    lowerMsg.includes("develop") ||
-    lowerMsg.includes("creator") ||
-    lowerMsg.includes("banaya") ||
-    lowerMsg.includes("banayi") ||
-    lowerMsg.includes("maker") ||
-    lowerMsg.includes("owner") ||
-    lowerMsg.includes("who made") ||
-    lowerMsg.includes("aditi") ||
-    lowerMsg.includes("lucknow") ||
-    lowerMsg.includes("kab banaya") ||
-    lowerMsg.includes("who created") ||
-    lowerMsg.includes("kisne banaya") ||
-    lowerMsg.includes("kisne banayi") ||
-    lowerMsg.includes("kisne develop");
-
-  if (isDevQuery) {
-    const devReply = getSituationalSafetyAdvice(message, lengthPreference, preferredLang);
-    return res.json({ reply: devReply, text: devReply });
-  }
-
   const apiKey = process.env.GEMINI_API_KEY;
 
   if (apiKey) {
@@ -244,28 +254,44 @@ app.post("/api/assistant", async (req, res) => {
 
       const langDirective =
         preferredLang.includes("hi") || preferredLang === "hindi"
-          ? "CRITICAL MANDATE: Respond in HINDI (हिंदी) or natural conversational Hinglish as commonly spoken in India."
+          ? "CRITICAL LANGUAGE RULE: Respond in clear, natural HINDI (हिंदी) or conversational Hinglish as appropriate to match user tone."
           : preferredLang.includes("en") || preferredLang === "english"
-          ? "CRITICAL MANDATE: Respond strictly in concise, direct ENGLISH."
-          : "Respond in the exact same language or dialect (Hindi, Hinglish, English) as the user message.";
+          ? "CRITICAL LANGUAGE RULE: Respond in clear, professional, direct ENGLISH."
+          : "Respond in the exact same language or dialect (Hindi, Hinglish, or English) that the user used.";
 
-      const systemInstruction = `You are "SafeHer AI", a high-vigilance, rapid-response Women Safety & Emergency Assistant.
+      const systemInstruction = `You are "SafeHer AI", the intelligent, highly capable, and empathetic Women Safety & Emergency Assistant built directly into the SafeHer ecosystem.
 
 ${langDirective}
 
-DEVELOPER & CREATION DETAILS:
-- SafeHer was developed by Aditi Rao, a 20-year-old female developer from Lucknow, Uttar Pradesh, India, created in 2026 for women and girls' safety.
+MANDATE — PROVIDE EXACT & ACCURATE ANSWERS:
+- Always answer EXACTLY and DIRECTLY what the user asks. Never dodge the question or give a generic canned reply if a specific question is asked.
+- Answer informational questions with factual precision, depth, and clarity.
+- When asked about women safety laws in India, cite exact provisions: Zero FIR (CrPC 154 / BNSS 173), Bharatiya Nyaya Sanhita (BNS) Section 74/78, IPC Section 354 (assault/outraging modesty, voyeurism, stalking), Domestic Violence Act, and the Supreme Court guidelines on victim privacy (IPC 228A).
+- When asked about emergency tactical safety (cabs, stalkers, dark streets, harassment), give sharp, realistic, numbered life-saving steps.
+- Always remember emergency numbers: 112 (All-India Emergency), 1090 (Women Power Line / UP & National), 108 (Ambulance), 1098 (Childline), 1930 (Cyber Crime).
 
-RESPONSE RULES:
-1. DESIRED LENGTH: ${lengthPreference}.
-   - If "short" (DEFAULT): Deliver exactly 2 to 3 sharp, bulleted, immediate physical/emergency action steps that can be read or spoken aloud in under 6 seconds.
-   - If "medium": 3 to 4 structured safety steps.
-   - If "detailed": In-depth self-defense, laws (Zero FIR, Sec 354 BNS), and emergency helpline numbers.
-2. SITUATION GUIDANCE:
-   - Cab/Taxi route diversion: Share live GPS on WhatsApp, firmly order driver to pull over at public shop/petrol pump, call 112 immediately if he doesn't comply.
-   - Stalker/Followed: Cross street, enter lit store/guarded ATM, use SafeHer Fake Call, hold keys, call 112 / 1090.
-   - Physical attack: Eye strike, throat strike, groin kick, stomp foot arch, yell "FIRE", sprint to safety.
-3. HELPLINES: 112 (National Emergency), 1090 (Women Helpline), 108 (Ambulance). Keep response ultra-fast and direct.`;
+CREATOR, DEVELOPER & ROLE MODEL DOSSIER — ADITI RAO:
+- Who is Aditi Rao?
+  Aditi Rao is an exceptional 20-year-old female software engineer, innovator, and women's safety advocate from Lucknow, Uttar Pradesh, India. She is the founder and developer of SafeHer, created in 2026.
+- Signature Thought & Philosophy of Aditi Rao:
+  * In English: "Technology should not only make our lives easier, it should make our lives safer."
+  * In Hindi: "तकनीक का उद्देश्य केवल हमारे जीवन को आसान बनाना ही नहीं, बल्कि हमारे जीवन को अधिक सुरक्षित और भयमुक्त बनाना भी होना चाहिए।"
+  * Whenever asked about Aditi Rao's thoughts, vision, philosophy, quotes, or what motivates her, ALWAYS quote this exact thought prominently and explain how it drives the SafeHer mission.
+- Professional Profile & Guidelines:
+  * Present Aditi Rao with high professionalism, dignity, and admiration as an inspiring tech leader and youth role model.
+  * DO NOT use defensive, repetitive, or informal phrases like "100% self-coded", "bina AI ke banaya", or "AI tool ka use nahi kiya". Keep the tone strictly executive, inspiring, and professional.
+  * State clearly and gracefully that she conceptualized, designed, and developed the entire SafeHer platform from Lucknow, Uttar Pradesh.
+  * Highlight her accomplishments at age 20: architecting a comprehensive, production-grade safety ecosystem with 1-tap SOS, live GPS tracking, fake escape calls, and emergency assistance.
+  * Emphasize her dedication to "Tech For Good" (using software technology for social impact and women's safety) and how she serves as an inspiring role model for young women and students in STEM across Uttar Pradesh and all of India.
+- When asked about Aditi Rao, who developed SafeHer, her achievements, her thoughts, or why she is an inspiration:
+  Provide a warm, articulate, highly professional, and proud response highlighting her software engineering talent, vision at age 20, social empathy, signature thought, and status as a genuine youth role model.
+
+RESPONSE STYLE:
+- Match the user's requested detail level:
+  * "short": 2-3 crisp, high-impact bullet points.
+  * "medium": 3-4 structured, well-explained steps or insights.
+  * "detailed": Complete, in-depth guide with practical steps, background, and legal/safety context.
+- Use clean formatting with bold titles and bullet points.`;
 
       const contents: any[] = [];
       if (Array.isArray(history)) {
@@ -284,17 +310,16 @@ RESPONSE RULES:
         userPrompt += `\n[User GPS: ${locationContext}]`;
       }
       userPrompt += `\n[Preferred Language: ${preferredLang || "match-input"}]`;
-      userPrompt += `\n[Length: ${lengthPreference}]`;
+      userPrompt += `\n[Length Preference: ${lengthPreference}]`;
 
       contents.push({
         role: "user",
         parts: [{ text: userPrompt }],
       });
 
-      // Ultra-fast model call with 1800ms limit for emergency rapid analysis
-      const maxTokens = lengthPreference === "short" ? 220 : lengthPreference === "medium" ? 450 : 800;
+      const maxTokens = lengthPreference === "short" ? 350 : lengthPreference === "medium" ? 600 : 1000;
 
-      const tryModel = async (model: string, timeoutMs: number = 1800): Promise<string> => {
+      const tryModel = async (model: string, timeoutMs: number = 8000): Promise<string> => {
         const timeoutPromise = new Promise<string>((_, reject) =>
           setTimeout(() => reject(new Error(`Timeout after ${timeoutMs}ms`)), timeoutMs)
         );
@@ -304,7 +329,7 @@ RESPONSE RULES:
             contents,
             config: {
               systemInstruction,
-              temperature: 0.4,
+              temperature: 0.5,
               maxOutputTokens: maxTokens,
             },
           });
@@ -315,19 +340,20 @@ RESPONSE RULES:
 
       let responseText = "";
       try {
-        // Fast primary model: gemini-3.1-flash-lite
-        responseText = await tryModel("gemini-3.1-flash-lite", 1800);
+        // Fast primary model: gemini-3.5-flash-lite
+        responseText = await tryModel("gemini-3.5-flash-lite", 8000);
       } catch (err: any) {
+        console.log("Notice: Primary model gemini-3.5-flash-lite had issue, trying gemini-flash-latest:", err?.message || err);
         try {
-          // Fallback model: gemini-3.8-flash
-          responseText = await tryModel("gemini-3.8-flash", 1500);
+          // Robust fallback model: gemini-flash-latest
+          responseText = await tryModel("gemini-flash-latest", 8000);
         } catch (subErr: any) {
-          // Will fall through to instant deterministic engine
+          console.log("Notice: Secondary model also had issue:", subErr?.message || subErr);
         }
       }
 
-      if (responseText) {
-        return res.json({ reply: responseText, text: responseText });
+      if (responseText && responseText.trim().length > 0) {
+        return res.json({ reply: responseText.trim(), text: responseText.trim() });
       }
     } catch (e: any) {
       console.log("Notice: Gemini assistant error, using instant safety intelligence:", e?.message || e);

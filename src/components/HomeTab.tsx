@@ -313,7 +313,15 @@ export const HomeTab: React.FC<HomeTabProps> = ({
       </div>
 
       {/* 6. DEVELOPER & COPYRIGHT FOOTER */}
-      <div className="pt-2 pb-6 text-center space-y-1">
+      <div className="pt-3 pb-6 text-center space-y-2">
+        <div className="max-w-xs mx-auto px-3.5 py-2 rounded-xl bg-gradient-to-r from-rose-50/80 via-pink-50/80 to-rose-50/80 dark:from-slate-800/80 dark:via-rose-950/20 dark:to-slate-800/80 border border-rose-200/60 dark:border-rose-900/40 shadow-xs">
+          <p className="text-[10.5px] font-semibold italic text-slate-700 dark:text-slate-200 leading-snug">
+            “Technology should not only make our lives easier, it should make our lives safer.”
+          </p>
+          <p className="text-[9.5px] font-medium text-slate-500 dark:text-slate-400 mt-0.5">
+            “तकनीक का उद्देश्य न केवल जीवन को आसान, बल्कि अधिक सुरक्षित बनाना भी है।”
+          </p>
+        </div>
         <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-rose-50/70 dark:bg-slate-800 border border-rose-100 dark:border-slate-700 text-[11px] font-bold text-slate-700 dark:text-slate-200 shadow-2xs">
           <span>👩‍💻 Developed by</span>
           <span className="text-[#E84E60] dark:text-rose-400 font-extrabold">Aditi Rao</span>

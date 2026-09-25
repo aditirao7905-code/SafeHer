@@ -29,19 +29,21 @@ interface AssistantTabProps {
 }
 
 const QUICK_PROMPTS_HI = [
-  "🚨 कैब ड्राइवर ने रास्ता बदल दिया, क्या करूं?",
-  "⚠️ कोई पीछा कर रहा है, तुरंत क्या करें?",
-  "👩‍💻 SafeHer किसने डेवलप किया है?",
-  "🥋 आत्मरक्षा (Self Defense) के जरूरी कदम",
-  "⚖️ Zero FIR कैसे दर्ज कराएं?",
+  "🌟 Aditi Rao (Developer & Role Model) के बारे में बताएं",
+  "💡 Aditi Rao का विचार (Vision & Thought) क्या है?",
+  "🚨 कैब ड्राइवर ने रास्ता बदल दिया, तुरंत क्या करूं?",
+  "⚠️ कोई पीछा कर रहा है, सुरक्षित बचने के कदम?",
+  "⚖️ Zero FIR क्या है और कैसे दर्ज कराएं?",
+  "🥋 आत्मरक्षा (Self Defense) के असरदार प्रहार",
 ];
 
 const QUICK_PROMPTS_EN = [
-  "🚨 Cab driver took wrong route, what to do?",
-  "⚠️ Someone is following me, immediate steps?",
-  "👩‍💻 Who developed SafeHer?",
-  "🥋 Immediate self defense tactics",
-  "⚖️ How to register a Zero FIR?",
+  "🌟 Tell me about developer & role model Aditi Rao",
+  "💡 What is Aditi Rao's vision & signature thought?",
+  "🚨 Cab driver took wrong route, what to do now?",
+  "⚠️ Someone is following me, immediate escape steps?",
+  "⚖️ What is a Zero FIR and how to file it?",
+  "🥋 High-impact self defense tactics",
 ];
 
 export const AssistantTab: React.FC<AssistantTabProps> = ({ location }) => {
@@ -177,32 +179,59 @@ export const AssistantTab: React.FC<AssistantTabProps> = ({ location }) => {
     setSpeakingMessageId(null);
   };
 
-  // Immediate situational emergency answer fallback
+  // Immediate situational emergency answer fallback with rich Aditi Rao details
   const getImmediateClientFallback = (query: string, lang: string): string => {
     const isHi = lang === "hi-IN" || /[\u0900-\u097F]/.test(query);
     const lower = query.toLowerCase();
 
-    if (lower.includes("develop") || lower.includes("creator") || lower.includes("banaya") || lower.includes("who made")) {
+    if (
+      lower.includes("develop") ||
+      lower.includes("creator") ||
+      lower.includes("banaya") ||
+      lower.includes("banayi") ||
+      lower.includes("who made") ||
+      lower.includes("aditi") ||
+      lower.includes("role model") ||
+      lower.includes("inspiration") ||
+      lower.includes("prerna") ||
+      lower.includes("thought") ||
+      lower.includes("vichar") ||
+      lower.includes("quote") ||
+      lower.includes("philosophy") ||
+      lower.includes("soch")
+    ) {
       return isHi
-        ? "SafeHer app ko Aditi Rao (Age 20, Lucknow) ne 2026 mein mahilaon aur ladkiyon ki suraksha ke liye develop kiya hai."
-        : "SafeHer was developed by Aditi Rao (Age 20, Lucknow, UP) in 2026 to provide instant women emergency protection.";
+        ? "🌟 **Aditi Rao — SafeHer की संस्थापक, सॉफ्टवेयर इंजीनियर एवं यूथ रोल मॉडल**:\n\nSafeHer को **Aditi Rao** (उम्र: 20 वर्ष, लखनऊ, उत्तर प्रदेश) ने महिलाओं और बालिकाओं की सुरक्षा के उद्देश्य से 2026 में विकसित किया है।\n\n💡 **अदिति राव का प्रेरक विचार (Core Thought & Vision)**:\n> **\"Technology should not only make our lives easier, it should make our lives safer.\"**\n> *(हिंदी: \"तकनीक का उद्देश्य केवल हमारे जीवन को आसान बनाना ही नहीं, बल्कि हमारे जीवन को अधिक सुरक्षित और भयमुक्त बनाना भी होना चाहिए।\")*\n\n👑 **अदिति राव के बारे में मुख्य बातें एवं उपलब्धियां**:\n- **प्रतिभाशाली सॉफ्टवेयर इंजीनियर**: मात्र 20 वर्ष की आयु में लखनऊ की सॉफ्टवेयर इंजीनियर अदिति राव ने इस संपूर्ण जीवन-रक्षक सुरक्षा प्लेटफॉर्म को स्वयं डिज़ाइन, कोड और विकसित किया है।\n- **SafeHer का उद्देश्य**: महिलाओं, छात्राओं और कामकाजी युवतियों को निर्भय होकर यात्रा करने और अपनी सुरक्षा सुनिश्चित करने के लिए उन्होंने Instant SOS, लाइव लोकेशन ट्रैकिंग, फेक कॉल और सुरक्षा टूल्स जैसी आधुनिक सुविधाएं बनाईं।\n- **Tech For Good**: अदिति का मानना है कि सच्ची तकनीक वही है जो हर महिला को आत्मनिर्भर बनाए और मानवीय जीवन की रक्षा करे।\n- **लखनऊ और पूरे देश का गौरव**: इतनी कम उम्र में ऐसा सराहनीय कदम उठाकर अदिति राव आज देश भर की युवा बेटियों, छात्राओं और भविष्य के कोडर्स के लिए एक प्रेरणास्रोत और आदर्श (Role Model) हैं। Proud of Aditi Rao! 🇮🇳✨"
+        : "🌟 **Aditi Rao — Founder, Lead Engineer of SafeHer & Youth Role Model**:\n\nSafeHer was engineered and developed by **Aditi Rao** (Age: 20, Lucknow, Uttar Pradesh, India) in 2026 to ensure the safety and empowerment of women and girls.\n\n💡 **Aditi Rao's Signature Thought & Vision**:\n> **“Technology should not only make our lives easier, it should make our lives safer.”**\n> *(Hindi: \"तकनीक का उद्देश्य केवल हमारे जीवन को आसान बनाना ही नहीं, बल्कि हमारे जीवन को अधिक सुरक्षित और भयमुक्त बनाना भी होना चाहिए।\")*\n\n👑 **About Aditi Rao & Her Vision**:\n- **Exceptional Software Engineer**: At just 20 years of age, Aditi Rao from Lucknow, Uttar Pradesh, designed, coded, and developed this complete life-saving safety platform.\n- **Purpose-Driven Innovation**: Driven by deep empathy for women's real-world safety challenges, she created SafeHer with 1-tap SOS alerts, live GPS tracking, emergency fake calls, and comprehensive safety assistance so women can travel and live fearlessly.\n- **Tech For Social Impact**: Aditi believes that true technology is measured by the lives it protects and empowers. She dedicated her technical expertise to women's safety and social welfare.\n- **Pride of Lucknow & India**: Her leadership and dedication make her an inspiring role model for young girls, students, and aspiring technologists across India. Proud of Aditi Rao! 🇮🇳✨";
+    }
+
+    if (lower.includes("zero fir") || lower.includes("fir") || lower.includes("legal")) {
+      return isHi
+        ? "⚖️ **Zero FIR आपका कानूनी अधिकार है**:\nघटना चाहे कहीं भी हुई हो, आप किसी भी नजदीकी थाने में Zero FIR दर्ज करा सकती हैं (BNSS धारा 173 / CrPC 154)। पुलिस क्षेत्राधिकार का बहाना बनाकर मना नहीं कर सकती।"
+        : "⚖️ **Zero FIR is Your Legal Right**:\nUnder BNSS Section 173 / CrPC 154, you can register an FIR at ANY police station irrespective of where the crime occurred. Refusal is punishable by law.";
     }
 
     if (lower.includes("cab") || lower.includes("driver") || lower.includes("route") || lower.includes("rasta")) {
       return isHi
-        ? "🚨 कैब गलत रास्ते पर (तुरंत 3 कदम):\n1. SafeHer 'Live Location' से WhatsApp पर लोकेशन भेजें।\n2. ड्राइवर को ज़ोर से बोलें: 'मेन रोड पर गाड़ी रोकिए, 112 डायल हो रहा है।'\n3. दरवाज़ा अंदर से खोलें और तुरंत 112 मिलाएं।"
-        : "🚨 Cab Emergency (3 Quick Steps):\n1. Share SafeHer Live GPS on WhatsApp with family.\n2. Loudly command driver: 'Keep on main highway, pull over at nearest shop.'\n3. Check child-lock off and dial 112 immediately.";
+        ? "🚨 **कैब गलत रास्ते पर (तुरंत 3 कदम)**:\n1. SafeHer 'Live Location' से WhatsApp पर लोकेशन भेजें।\n2. ड्राइवर को ज़ोर से बोलें: 'मेन रोड पर गाड़ी रोकिए, 112 डायल हो रहा है।'\n3. दरवाज़ा अंदर से खोलें और तुरंत 112 मिलाएं।"
+        : "🚨 **Cab Emergency (3 Quick Steps)**:\n1. Share SafeHer Live GPS on WhatsApp with family.\n2. Loudly command driver: 'Keep on main highway, pull over at nearest shop.'\n3. Check child-lock off and dial 112 immediately.";
     }
 
     if (lower.includes("piche") || lower.includes("stalk") || lower.includes("follow") || lower.includes("chase")) {
       return isHi
-        ? "⚠️ पीछा किए जाने पर तुरंत:\n1. सड़क पार करें और किसी खुली दुकान या गार्ड वाले ATM में घुसें।\n2. SafeHer Fake Call चालू करके कान पर लगाएं।\n3. हाथ में चाबी रखें और 112 / 1090 पर कॉल करें।"
-        : "⚠️ Being Followed (Immediate Actions):\n1. Cross the street diagonally into an open shop or guarded 24/7 ATM.\n2. Turn on SafeHer Fake Call and speak loudly.\n3. Hold keys between knuckles and dial 112 / 1090.";
+        ? "⚠️ **पीछा किए जाने पर तुरंत**:\n1. सड़क पार करें और किसी खुली दुकान या गार्ड वाले ATM में घुसें।\n2. SafeHer Fake Call चालू करके कान पर लगाएं।\n3. हाथ में चाबी रखें और 112 / 1090 पर कॉल करें।"
+        : "⚠️ **Being Followed (Immediate Actions)**:\n1. Cross the street diagonally into an open shop or guarded 24/7 ATM.\n2. Turn on SafeHer Fake Call and speak loudly.\n3. Hold keys between knuckles and dial 112 / 1090.";
+    }
+
+    if (lower.includes("defense") || lower.includes("aatmraksha") || lower.includes("attack")) {
+      return isHi
+        ? "🥋 **आत्मरक्षा (Self Defense) के 3 त्वरित प्रहार**:\n1. हथेली के निचले हिस्से से हमलावर की नाक या गले पर वार करें।\n2. पीछे से पकड़ने पर उसकी एड़ी पर पैर पटकें और कोहनी से पसलियों पर मारें।\n3. ज़ोर से 'आग' चिल्लाएं और 112 मिलाएं।"
+        : "🥋 **Self Defense Strikes**:\n1. Palm strike to nose or throat; groin kick.\n2. Heel stomp on instep if grabbed from behind.\n3. Scream 'FIRE' loudly and dial 112.";
     }
 
     return isHi
-      ? "🛡️ तुरंत सुरक्षित जगह या रोशनी में जाएं। अगर कोई भी खतरा है तो ऊपर लाल SOS बटन दबाएं या तुरंत 112 पर कॉल करें।"
-      : "🛡️ Move to a well-lit, crowded area immediately. If you feel any threat, tap the red SOS button or dial 112.";
+      ? "🛡️ **SafeHer सुरक्षा निर्देश**:\nयदि आप किसी भी आपात स्थिति या खतरे में हैं, तुरंत ऊपर लाल SOS बटन दबाएं या सीधे 112 / 1090 पर कॉल करें। मुझे अपनी सटीक स्थिति बताएं ताकि मैं तुरंत सही मार्गदर्शन दे सकूं।"
+      : "🛡️ **SafeHer Safety Guidance**:\nIf you are facing any threat or danger right now, tap the red SOS button immediately or dial 112 / 1090. Please specify your situation for instant customized guidance.";
   };
 
   const handleSend = async (textToSend?: string) => {
@@ -225,7 +254,7 @@ export const AssistantTab: React.FC<AssistantTabProps> = ({ location }) => {
 
     try {
       const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 4000);
+      const timeoutId = setTimeout(() => controller.abort(), 15000);
 
       const res = await fetch("/api/assistant", {
         method: "POST",
