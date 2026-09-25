@@ -2,6 +2,8 @@
   "name": "react-example",
   "private": true,
   "version": "0.0.0",
+  "author": "Aditi Rao <aditirao7905@gmail.com>",
+  "copyright": "Copyright © 2026 Aditi Rao. All rights reserved.",
   "type": "module",
   "scripts": {
     "dev": "tsx server.ts",

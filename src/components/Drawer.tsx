@@ -41,9 +41,14 @@ export const Drawer: React.FC<DrawerProps> = ({
                 <div className="w-8 h-8 rounded-xl bg-rose-50 dark:bg-slate-800 flex items-center justify-center">
                   <Shield className="w-5 h-5 text-[#4A8EC2] fill-[#78B4DC]/30" />
                 </div>
-                <span className="text-xl font-black text-[#E84E60] dark:text-rose-400 tracking-tight">
-                  SafeHer
-                </span>
+                <div>
+                  <span className="text-xl font-black text-[#E84E60] dark:text-rose-400 tracking-tight leading-none block">
+                    SafeHer
+                  </span>
+                  <span className="text-[10px] font-bold text-slate-500 dark:text-slate-400">
+                    Women Safety Assistant
+                  </span>
+                </div>
               </div>
               <button
                 onClick={onClose}
@@ -197,13 +202,12 @@ export const Drawer: React.FC<DrawerProps> = ({
             </nav>
           </div>
 
-          {/* Quick status & disclaimer */}
-          <div className="pt-4 border-t border-slate-100 dark:border-slate-800 text-center">
-            <div className="flex items-center justify-center gap-1.5 text-xs text-emerald-600 dark:text-emerald-400 font-semibold">
-              <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-              Protection System Active
+          {/* Footer Status */}
+          <div className="pt-3 border-t border-slate-100 dark:border-slate-800 text-center">
+            <div className="flex items-center justify-center gap-1.5 text-[11px] text-emerald-600 dark:text-emerald-400 font-semibold">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+              <span>Protection System Active • v2.4</span>
             </div>
-            <p className="text-[10px] text-slate-400 mt-1">SafeHer Women Safety • v2.4</p>
           </div>
         </div>
       </div>

@@ -35,8 +35,8 @@ export const Header: React.FC<HeaderProps> = ({
               </h1>
               <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
             </div>
-            <p className="text-[10px] font-semibold text-slate-500 dark:text-slate-400 tracking-tight leading-tight mt-0.5">
-              A smart women safety assistant
+            <p className="text-[10px] font-bold text-slate-500 dark:text-slate-400 tracking-tight leading-tight mt-0.5">
+              A Smart Women Safety Assistant
             </p>
           </div>
         </div>

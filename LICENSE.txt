@@ -1,0 +1,8 @@
+SAFEHER - SMART WOMEN SAFETY ASSISTANT
+
+Copyright © 2026 Aditi Rao.
+All Rights Reserved.
+
+Developed by Aditi Rao.
+
+No part of this project, including its source code, design, content, graphics, or functionality, may be copied, modified, reproduced, redistributed, or commercially used without prior written permission from Aditi Rao.

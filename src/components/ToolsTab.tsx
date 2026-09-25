@@ -275,6 +275,8 @@ export const ToolsTab: React.FC<ToolsTabProps> = ({
         </button>
       </div>
 
+
+
       {/* Safe Places Modal */}
       {showSafePlacesModal && (
         <div className="fixed inset-0 z-50 bg-slate-900/70 backdrop-blur-xs flex items-center justify-center p-4">

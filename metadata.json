@@ -1,6 +1,6 @@
 {
   "name": "SafeHer",
-  "description": "Smart Women Safety Assistant with one-tap SOS emergency alert, live GPS location sharing, fake escape call, safe route tracker, voice distress detection, and AI safety assistant.",
+  "description": "SafeHer - Smart Women Safety Assistant developed by Aditi Rao with one-tap SOS emergency alert, live GPS location sharing, fake escape call, safe route tracker, voice distress detection, and AI safety assistant.",
   "requestFramePermissions": [
     "geolocation",
     "microphone",

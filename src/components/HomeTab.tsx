@@ -311,6 +311,17 @@ export const HomeTab: React.FC<HomeTabProps> = ({
           </p>
         </div>
       </div>
+
+      {/* 6. DEVELOPER & COPYRIGHT FOOTER */}
+      <div className="pt-2 pb-6 text-center space-y-1">
+        <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-rose-50/70 dark:bg-slate-800 border border-rose-100 dark:border-slate-700 text-[11px] font-bold text-slate-700 dark:text-slate-200 shadow-2xs">
+          <span>👩‍💻 Developed by</span>
+          <span className="text-[#E84E60] dark:text-rose-400 font-extrabold">Aditi Rao</span>
+        </div>
+        <p className="text-[10px] text-slate-400 dark:text-slate-500 font-medium">
+          SafeHer © 2026 Aditi Rao • All Rights Reserved
+        </p>
+      </div>
     </div>
   );
 };
