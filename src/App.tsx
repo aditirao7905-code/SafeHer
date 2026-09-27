@@ -534,89 +534,100 @@ export default function App() {
         )}
 
         {/* Main Tab Content */}
-        <main className="flex-1 px-4 pt-3">
-          {activeTab === "home" && (
-            <HomeTab
-              onSosClick={() => {
+        {activeTab === "assistant" ? (
+          <div className="fixed inset-0 z-40 bg-slate-50 dark:bg-slate-950 flex flex-col overflow-hidden">
+            <div className="w-full max-w-md md:max-w-2xl lg:max-w-4xl mx-auto h-full flex flex-col bg-white dark:bg-slate-900 shadow-2xl relative md:border-x border-slate-100 dark:border-slate-800">
+              <AssistantTab
+                location={location}
+                onBack={() => setActiveTab("home")}
+              />
+            </div>
+          </div>
+        ) : (
+          <>
+            <main className="flex-1 px-4 pt-3 pb-24">
+              {activeTab === "home" && (
+                <HomeTab
+                  onSosClick={() => {
+                    setTriggeredByShake(false);
+                    setIsSirenModalOpen(true);
+                  }}
+                  onOpenFakeCall={() => setIsFakeCallOpen(true)}
+                  onCheckLocation={() => setIsLocationModalOpen(true)}
+                  onCheckBattery={() => setIsBatteryModalOpen(true)}
+                  onTriggerImSafe={handleTriggerImSafe}
+                  onOpenSafeRoute={() => setIsSafeRouteOpen(true)}
+                  onOpenSafetyScore={() => setIsSafetyScoreOpen(true)}
+                  onQuickExit={() => setIsQuickExitOpen(true)}
+                  onNavigateTab={(tab) => setActiveTab(tab)}
+                  isShakeEnabled={isShakeEnabled}
+                  onToggleShake={handleToggleShake}
+                  isVoiceSosEnabled={isVoiceSosEnabled}
+                  onToggleVoiceSos={handleToggleVoiceSos}
+                  batteryLevel={batteryLevel}
+                  isBatterySaverOn={isBatterySaverOn}
+                  location={location}
+                  safeStatusText={safeStatusText}
+                />
+              )}
+
+              {activeTab === "contacts" && (
+                <ContactsTab
+                  contacts={contacts}
+                  onAddContact={handleAddContact}
+                  onDeleteContact={handleDeleteContact}
+                  location={location}
+                  batteryLevel={batteryLevel}
+                />
+              )}
+
+              {activeTab === "tools" && (
+                <ToolsTab
+                  isShakeEnabled={isShakeEnabled}
+                  onToggleShake={handleToggleShake}
+                  onSimulateShake={handleSimulateShake}
+                  isVoiceSosEnabled={isVoiceSosEnabled}
+                  onToggleVoiceSos={handleToggleVoiceSos}
+                  onOpenBattery={() => setIsBatteryModalOpen(true)}
+                  isBatterySaverOn={isBatterySaverOn}
+                  batteryLevel={batteryLevel}
+                  onOpenSafeRoute={() => setIsSafeRouteOpen(true)}
+                  onCheckLocation={() => setIsLocationModalOpen(true)}
+                  onOpenSafetyScore={() => setIsSafetyScoreOpen(true)}
+                  onTriggerSiren={() => {
+                    setTriggeredByShake(false);
+                    setIsSirenModalOpen(true);
+                  }}
+                  onOpenFakeCall={() => setIsFakeCallOpen(true)}
+                  onQuickExit={() => setIsQuickExitOpen(true)}
+                  location={location}
+                />
+              )}
+
+              {activeTab === "sos" && (
+                <SosTab
+                  location={location}
+                  batteryLevel={batteryLevel}
+                  contacts={contacts}
+                  onTriggerSiren={() => {
+                    setTriggeredByShake(false);
+                    setIsSirenModalOpen(true);
+                  }}
+                />
+              )}
+            </main>
+
+            {/* Bottom Fixed Navigation Bar */}
+            <BottomNav
+              activeTab={activeTab}
+              onSelectTab={(tab) => setActiveTab(tab)}
+              onSosTrigger={() => {
                 setTriggeredByShake(false);
                 setIsSirenModalOpen(true);
               }}
-              onOpenFakeCall={() => setIsFakeCallOpen(true)}
-              onCheckLocation={() => setIsLocationModalOpen(true)}
-              onCheckBattery={() => setIsBatteryModalOpen(true)}
-              onTriggerImSafe={handleTriggerImSafe}
-              onOpenSafeRoute={() => setIsSafeRouteOpen(true)}
-              onOpenSafetyScore={() => setIsSafetyScoreOpen(true)}
-              onQuickExit={() => setIsQuickExitOpen(true)}
-              onNavigateTab={(tab) => setActiveTab(tab)}
-              isShakeEnabled={isShakeEnabled}
-              onToggleShake={handleToggleShake}
-              isVoiceSosEnabled={isVoiceSosEnabled}
-              onToggleVoiceSos={handleToggleVoiceSos}
-              batteryLevel={batteryLevel}
-              isBatterySaverOn={isBatterySaverOn}
-              location={location}
-              safeStatusText={safeStatusText}
             />
-          )}
-
-          {activeTab === "contacts" && (
-            <ContactsTab
-              contacts={contacts}
-              onAddContact={handleAddContact}
-              onDeleteContact={handleDeleteContact}
-              location={location}
-              batteryLevel={batteryLevel}
-            />
-          )}
-
-          {activeTab === "tools" && (
-            <ToolsTab
-              isShakeEnabled={isShakeEnabled}
-              onToggleShake={handleToggleShake}
-              onSimulateShake={handleSimulateShake}
-              isVoiceSosEnabled={isVoiceSosEnabled}
-              onToggleVoiceSos={handleToggleVoiceSos}
-              onOpenBattery={() => setIsBatteryModalOpen(true)}
-              isBatterySaverOn={isBatterySaverOn}
-              batteryLevel={batteryLevel}
-              onOpenSafeRoute={() => setIsSafeRouteOpen(true)}
-              onCheckLocation={() => setIsLocationModalOpen(true)}
-              onOpenSafetyScore={() => setIsSafetyScoreOpen(true)}
-              onTriggerSiren={() => {
-                setTriggeredByShake(false);
-                setIsSirenModalOpen(true);
-              }}
-              onOpenFakeCall={() => setIsFakeCallOpen(true)}
-              onQuickExit={() => setIsQuickExitOpen(true)}
-              location={location}
-            />
-          )}
-
-          {activeTab === "sos" && (
-            <SosTab
-              location={location}
-              batteryLevel={batteryLevel}
-              contacts={contacts}
-              onTriggerSiren={() => {
-                setTriggeredByShake(false);
-                setIsSirenModalOpen(true);
-              }}
-            />
-          )}
-
-          {activeTab === "assistant" && <AssistantTab location={location} />}
-        </main>
-
-        {/* Bottom Fixed Navigation Bar */}
-        <BottomNav
-          activeTab={activeTab}
-          onSelectTab={(tab) => setActiveTab(tab)}
-          onSosTrigger={() => {
-            setTriggeredByShake(false);
-            setIsSirenModalOpen(true);
-          }}
-        />
+          </>
+        )}
 
         {/* Drawer Side Navigation */}
         <Drawer

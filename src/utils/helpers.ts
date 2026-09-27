@@ -1,28 +1,35 @@
 import { EmergencyContact, IncidentReport } from "../types";
 
-export const DEFAULT_CONTACTS: EmergencyContact[] = [];
+export const DEFAULT_CONTACTS: EmergencyContact[] = [
+  {
+    id: "cnt_mom",
+    name: "Maa / Mother",
+    phone: "+91 98201 12345",
+    relationship: "Mother",
+    isPrimary: true,
+  },
+  {
+    id: "cnt_dad",
+    name: "Papa / Father",
+    phone: "+91 98201 54321",
+    relationship: "Father",
+    isPrimary: false,
+  },
+];
 
 export const getSavedContacts = (): EmergencyContact[] => {
   try {
     const data = localStorage.getItem("safeher_contacts");
     if (data) {
       const parsed: EmergencyContact[] = JSON.parse(data);
-      // Automatically clean up previous dummy numbers
-      const cleaned = parsed.filter(
-        (c) =>
-          c.phone !== "+919876543210" &&
-          c.phone !== "+919812345678" &&
-          c.phone !== "+919898989898"
-      );
-      if (cleaned.length !== parsed.length) {
-        localStorage.setItem("safeher_contacts", JSON.stringify(cleaned));
+      if (Array.isArray(parsed) && parsed.length > 0) {
+        return parsed;
       }
-      return cleaned;
     }
   } catch (e) {
     // fallback
   }
-  return [];
+  return DEFAULT_CONTACTS;
 };
 
 export const saveContacts = (contacts: EmergencyContact[]) => {
