@@ -55,7 +55,9 @@ export const LocationModal: React.FC<LocationModalProps> = ({
               <ArrowLeft className="w-5 h-5" />
             </button>
             <div className="flex items-center gap-2.5">
-              <span className="text-2xl">📍</span>
+              <div className="w-8 h-8 rounded-xl bg-gradient-to-tr from-blue-500 to-indigo-600 text-white flex items-center justify-center shadow-xs shrink-0">
+                <MapPin className="w-4 h-4" />
+              </div>
               <div>
                 <div className="flex items-center gap-2">
                   <h3 className="text-base sm:text-lg font-black text-slate-800 dark:text-slate-100 leading-tight">

@@ -14,8 +14,12 @@ import {
   ChevronRight,
   ArrowLeft,
   Palette,
+  Home,
+  Users,
+  Video,
 } from "lucide-react";
 import { ActiveTab, ThemeMode } from "../types";
+import { SafeHerRobotAvatar } from "./SafeHerRobotAvatar";
 
 export interface DrawerUser {
   name: string;
@@ -204,13 +208,15 @@ export const Drawer: React.FC<DrawerProps> = ({
                     onSelectTab("home");
                     onClose();
                   }}
-                  className={`w-full flex items-center gap-3 px-4 py-3 rounded-2xl text-left text-sm font-bold transition-all cursor-pointer ${
+                  className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-2xl text-left text-sm font-bold transition-all cursor-pointer ${
                     activeTab === "home"
                       ? "bg-rose-50 dark:bg-rose-950/40 text-[#E84E60] dark:text-rose-400 shadow-2xs"
                       : "hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200"
                   }`}
                 >
-                  <span className="text-xl">🏠</span>
+                  <div className="w-8 h-8 rounded-xl bg-gradient-to-tr from-rose-500 to-pink-500 text-white flex items-center justify-center shadow-xs shrink-0">
+                    <Home className="w-4 h-4" />
+                  </div>
                   <span>{t.home}</span>
                 </button>
 
@@ -220,13 +226,15 @@ export const Drawer: React.FC<DrawerProps> = ({
                     onSelectTab("tools");
                     onClose();
                   }}
-                  className={`w-full flex items-center gap-3 px-4 py-3 rounded-2xl text-left text-sm font-bold transition-all cursor-pointer ${
+                  className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-2xl text-left text-sm font-bold transition-all cursor-pointer ${
                     activeTab === "tools"
                       ? "bg-rose-50 dark:bg-rose-950/40 text-[#E84E60] dark:text-rose-400 shadow-2xs"
                       : "hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200"
                   }`}
                 >
-                  <span className="text-xl">🛡️</span>
+                  <div className="w-8 h-8 rounded-xl bg-gradient-to-tr from-sky-500 to-blue-600 text-white flex items-center justify-center shadow-xs shrink-0">
+                    <Shield className="w-4 h-4 fill-white/20" />
+                  </div>
                   <span>{t.tools}</span>
                 </button>
 
@@ -236,13 +244,15 @@ export const Drawer: React.FC<DrawerProps> = ({
                     onSelectTab("contacts");
                     onClose();
                   }}
-                  className={`w-full flex items-center gap-3 px-4 py-3 rounded-2xl text-left text-sm font-bold transition-all cursor-pointer ${
+                  className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-2xl text-left text-sm font-bold transition-all cursor-pointer ${
                     activeTab === "contacts"
                       ? "bg-rose-50 dark:bg-rose-950/40 text-[#E84E60] dark:text-rose-400 shadow-2xs"
                       : "hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200"
                   }`}
                 >
-                  <span className="text-xl">👥</span>
+                  <div className="w-8 h-8 rounded-xl bg-gradient-to-tr from-indigo-500 to-purple-600 text-white flex items-center justify-center shadow-xs shrink-0">
+                    <Users className="w-4 h-4" />
+                  </div>
                   <span>{t.contacts}</span>
                 </button>
 
@@ -252,13 +262,15 @@ export const Drawer: React.FC<DrawerProps> = ({
                     onSelectTab("assistant");
                     onClose();
                   }}
-                  className={`w-full flex items-center gap-3 px-4 py-3 rounded-2xl text-left text-sm font-bold transition-all cursor-pointer ${
+                  className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-2xl text-left text-sm font-bold transition-all cursor-pointer ${
                     activeTab === "assistant"
                       ? "bg-rose-50 dark:bg-rose-950/40 text-[#E84E60] dark:text-rose-400 shadow-2xs"
                       : "hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200"
                   }`}
                 >
-                  <span className="text-xl">🤖</span>
+                  <div className="w-8 h-8 rounded-xl bg-gradient-to-tr from-violet-100 to-fuchsia-100 dark:from-violet-950/60 dark:to-fuchsia-950/60 border border-violet-200/50 dark:border-violet-800/50 flex items-center justify-center shadow-xs shrink-0">
+                    <SafeHerRobotAvatar size={22} />
+                  </div>
                   <span>{t.assistant}</span>
                 </button>
 
@@ -268,10 +280,12 @@ export const Drawer: React.FC<DrawerProps> = ({
                     onOpenIncidentModal();
                     onClose();
                   }}
-                  className="w-full flex items-center justify-between px-4 py-3 rounded-2xl text-left text-sm font-bold hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200 transition-all cursor-pointer"
+                  className="w-full flex items-center justify-between px-3 py-2.5 rounded-2xl text-left text-sm font-bold hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200 transition-all cursor-pointer"
                 >
                   <div className="flex items-center gap-3">
-                    <span className="text-xl">📹</span>
+                    <div className="w-8 h-8 rounded-xl bg-gradient-to-tr from-teal-500 to-emerald-600 text-white flex items-center justify-center shadow-xs shrink-0">
+                      <Video className="w-4 h-4" />
+                    </div>
                     <span>{t.incident}</span>
                   </div>
                   <ChevronRight className="w-4 h-4 text-slate-400" />
@@ -283,13 +297,15 @@ export const Drawer: React.FC<DrawerProps> = ({
                     onSelectTab("sos");
                     onClose();
                   }}
-                  className={`w-full flex items-center gap-3 px-4 py-3 rounded-2xl text-left text-sm font-bold transition-all cursor-pointer ${
+                  className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-2xl text-left text-sm font-bold transition-all cursor-pointer ${
                     activeTab === "sos"
                       ? "bg-rose-50 dark:bg-rose-950/40 text-[#E84E60] dark:text-rose-400 shadow-2xs"
                       : "hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200"
                   }`}
                 >
-                  <span className="text-xl">🚨</span>
+                  <div className="w-8 h-8 rounded-xl bg-rose-100 dark:bg-rose-950/60 border border-rose-200/60 dark:border-rose-900/50 flex items-center justify-center text-lg shadow-xs shrink-0">
+                    <span className="animate-pulse">🚨</span>
+                  </div>
                   <span>{t.sos}</span>
                 </button>
 

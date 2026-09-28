@@ -39,15 +39,18 @@ export const AboutSafeHerModal: React.FC<AboutSafeHerModalProps> = ({
             >
               <ArrowLeft className="w-5 h-5" />
             </button>
-            <div>
-              <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2.5">
+              <div className="w-8 h-8 rounded-xl bg-gradient-to-tr from-[#E63950] to-[#FB7185] text-white flex items-center justify-center shadow-xs shrink-0">
+                <Shield className="w-4 h-4 fill-white/20" />
+              </div>
+              <div>
                 <h2 className="text-base sm:text-lg font-black text-slate-900 dark:text-white leading-tight">
                   About SafeHer
                 </h2>
+                <p className="text-[11px] text-slate-500 dark:text-slate-400">
+                  Mission • Safety Architecture • National Helplines
+                </p>
               </div>
-              <p className="text-[11px] text-slate-500 dark:text-slate-400">
-                Mission • Safety Architecture • National Helplines
-              </p>
             </div>
           </div>
 

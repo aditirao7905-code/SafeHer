@@ -72,28 +72,28 @@ export interface EmergencyTemplate {
 export const EMERGENCY_TEMPLATES: EmergencyTemplate[] = [
   {
     id: 'immediate',
-    title: '🚨 Danger',
+    title: 'Danger / Threat',
     icon: '🚨',
     description: 'Immediate threat',
     prefix: 'EMERGENCY! In danger, need immediate help! Call police 112.',
   },
   {
     id: 'cab',
-    title: '🚖 Cab Alert',
+    title: 'Cab Alert',
     icon: '🚖',
     description: 'Suspicious ride',
     prefix: 'CAB ALERT: Driver taking wrong route. Track my live location!',
   },
   {
     id: 'stalking',
-    title: '🚶‍♀️ Followed',
+    title: 'Being Followed',
     icon: '🚶‍♀️',
     description: 'Being followed',
     prefix: 'ALERT: Suspicious person following me. Please call me now!',
   },
   {
     id: 'medical',
-    title: '🏥 Medical',
+    title: 'Medical Help',
     icon: '🏥',
     description: 'Medical distress',
     prefix: 'MEDICAL EMERGENCY: Need immediate medical / ambulance help!',

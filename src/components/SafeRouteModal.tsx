@@ -309,7 +309,7 @@ export const SafeRouteModal: React.FC<SafeRouteModalProps> = ({
           <div className="flex-1 overflow-y-auto px-5 py-6 space-y-5">
             <div>
               <h3 className="text-base sm:text-lg font-bold text-slate-900 dark:text-slate-50 leading-snug flex items-center gap-2">
-                <span>🗺️</span>
+                <Navigation className="w-5 h-5 text-emerald-600 inline-block" />
                 <span>Enter your destination:</span>
               </h3>
               <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
@@ -417,7 +417,9 @@ export const SafeRouteModal: React.FC<SafeRouteModalProps> = ({
               <ArrowRight className="w-5 h-5 rotate-180" />
             </button>
             <div className="flex items-center gap-2.5">
-              <span className="text-2xl">🗺️</span>
+              <div className="w-8 h-8 rounded-xl bg-gradient-to-tr from-emerald-500 to-teal-600 text-white flex items-center justify-center shadow-xs shrink-0">
+                <Navigation className="w-4 h-4" />
+              </div>
               <div>
                 <div className="flex items-center gap-2">
                   <h3 className="text-base sm:text-lg font-black text-slate-900 dark:text-white leading-tight">

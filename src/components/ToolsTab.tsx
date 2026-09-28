@@ -1,5 +1,21 @@
 import React, { useState } from "react";
-import { Shield, MapPin, Phone, ExternalLink, X, Navigation } from "lucide-react";
+import {
+  Shield,
+  MapPin,
+  Phone,
+  ExternalLink,
+  X,
+  Navigation,
+  Smartphone,
+  Mic,
+  Battery,
+  BatteryCharging,
+  BatteryWarning,
+  BarChart3,
+  PhoneCall,
+  Calculator,
+  Building2,
+} from "lucide-react";
 import { LocationInfo, SafePlace } from "../types";
 
 interface ToolsTabProps {
@@ -86,8 +102,10 @@ export const ToolsTab: React.FC<ToolsTabProps> = ({
     <div className="space-y-5 pb-24 animate-fadeIn select-none">
       {/* Header */}
       <div>
-        <div className="flex items-center gap-2 mb-0.5">
-          <span className="text-2xl">🛡️</span>
+        <div className="flex items-center gap-2.5 mb-1">
+          <div className="w-9 h-9 rounded-2xl bg-gradient-to-tr from-sky-500 to-blue-600 text-white flex items-center justify-center shadow-xs shrink-0">
+            <Shield className="w-5 h-5 fill-white/20" />
+          </div>
           <h2 className="text-2xl font-black text-slate-800 dark:text-slate-100 tracking-tight leading-tight">
             Safety & Protection Tools
           </h2>
@@ -102,7 +120,9 @@ export const ToolsTab: React.FC<ToolsTabProps> = ({
         {/* Shake-to-SOS */}
         <div className="p-4 rounded-3xl bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 shadow-2xs flex flex-col justify-between min-h-[115px]">
           <div className="flex items-center justify-between">
-            <span className="text-2xl">😲</span>
+            <div className="w-9 h-9 rounded-2xl bg-gradient-to-tr from-amber-500 to-orange-500 text-white flex items-center justify-center shadow-xs">
+              <Smartphone className="w-4 h-4" />
+            </div>
             <button
               onClick={onToggleShake}
               className={`text-[10px] font-extrabold px-2.5 py-0.5 rounded-full cursor-pointer transition-colors ${
@@ -127,7 +147,9 @@ export const ToolsTab: React.FC<ToolsTabProps> = ({
         {/* Voice SOS (Clean - no Test button as requested) */}
         <div className="p-4 rounded-3xl bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 shadow-2xs hover:shadow-md transition-all text-left flex flex-col justify-between min-h-[115px]">
           <div className="flex items-center justify-between">
-            <span className="text-2xl">🎤</span>
+            <div className="w-9 h-9 rounded-2xl bg-gradient-to-tr from-rose-500 to-pink-500 text-white flex items-center justify-center shadow-xs">
+              <Mic className="w-4 h-4" />
+            </div>
             <button
               onClick={onToggleVoiceSos}
               className={`text-[10px] font-extrabold px-2.5 py-0.5 rounded-full cursor-pointer transition-colors ${
@@ -152,10 +174,26 @@ export const ToolsTab: React.FC<ToolsTabProps> = ({
         {/* Battery Monitor & Saver Tool */}
         <div
           onClick={onOpenBattery}
-          className="p-4 rounded-3xl bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 shadow-2xs hover:shadow-md transition-all text-left flex flex-col justify-between min-h-[115px] cursor-pointer"
+          className="p-4 rounded-3xl bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 shadow-2xs hover:shadow-md transition-all text-left flex flex-col justify-between min-h-[115px] cursor-pointer group"
         >
           <div className="flex items-center justify-between">
-            <span className="text-2xl">🔋</span>
+            <div
+              className={`w-9 h-9 rounded-2xl flex items-center justify-center shadow-xs group-hover:scale-105 transition-transform ${
+                isBatterySaverOn
+                  ? "bg-gradient-to-tr from-emerald-500 to-teal-600 text-white"
+                  : (batteryLevel ?? 84) <= 20
+                  ? "bg-gradient-to-tr from-rose-500 to-red-600 text-white animate-pulse"
+                  : "bg-gradient-to-tr from-emerald-500 to-green-600 text-white"
+              }`}
+            >
+              {isBatterySaverOn ? (
+                <BatteryCharging className="w-4 h-4" />
+              ) : (batteryLevel ?? 84) <= 20 ? (
+                <BatteryWarning className="w-4 h-4" />
+              ) : (
+                <Battery className="w-4 h-4" />
+              )}
+            </div>
             <span
               className={`text-[10px] font-extrabold px-2 py-0.5 rounded-full ${
                 isBatterySaverOn
@@ -181,9 +219,11 @@ export const ToolsTab: React.FC<ToolsTabProps> = ({
         {/* Safe Route Tracker */}
         <button
           onClick={onOpenSafeRoute}
-          className="p-4 rounded-3xl bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 shadow-2xs hover:shadow-md transition-all text-left flex flex-col justify-between min-h-[115px] cursor-pointer active:scale-98"
+          className="p-4 rounded-3xl bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 shadow-2xs hover:shadow-md transition-all text-left flex flex-col justify-between min-h-[115px] cursor-pointer active:scale-98 group"
         >
-          <span className="text-2xl">🗺️</span>
+          <div className="w-9 h-9 rounded-2xl bg-gradient-to-tr from-emerald-500 to-teal-600 text-white flex items-center justify-center shadow-xs group-hover:scale-105 transition-transform">
+            <Navigation className="w-4 h-4" />
+          </div>
           <div>
             <h4 className="text-sm font-bold text-slate-800 dark:text-slate-100 leading-tight">
               Safe Route
@@ -197,9 +237,11 @@ export const ToolsTab: React.FC<ToolsTabProps> = ({
         {/* Live Location */}
         <button
           onClick={onCheckLocation}
-          className="p-4 rounded-3xl bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 shadow-2xs hover:shadow-md transition-all text-left flex flex-col justify-between min-h-[115px] cursor-pointer active:scale-98"
+          className="p-4 rounded-3xl bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 shadow-2xs hover:shadow-md transition-all text-left flex flex-col justify-between min-h-[115px] cursor-pointer active:scale-98 group"
         >
-          <span className="text-2xl">📍</span>
+          <div className="w-9 h-9 rounded-2xl bg-gradient-to-tr from-blue-500 to-indigo-600 text-white flex items-center justify-center shadow-xs group-hover:scale-105 transition-transform">
+            <MapPin className="w-4 h-4" />
+          </div>
           <div>
             <h4 className="text-sm font-bold text-slate-800 dark:text-slate-100 leading-tight">
               Live Location
@@ -213,9 +255,11 @@ export const ToolsTab: React.FC<ToolsTabProps> = ({
         {/* Safe Places */}
         <button
           onClick={() => setShowSafePlacesModal(true)}
-          className="p-4 rounded-3xl bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 shadow-2xs hover:shadow-md transition-all text-left flex flex-col justify-between min-h-[115px] cursor-pointer active:scale-98"
+          className="p-4 rounded-3xl bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 shadow-2xs hover:shadow-md transition-all text-left flex flex-col justify-between min-h-[115px] cursor-pointer active:scale-98 group"
         >
-          <span className="text-2xl">🏥</span>
+          <div className="w-9 h-9 rounded-2xl bg-gradient-to-tr from-sky-500 to-cyan-600 text-white flex items-center justify-center shadow-xs group-hover:scale-105 transition-transform">
+            <Building2 className="w-4 h-4" />
+          </div>
           <div>
             <h4 className="text-sm font-bold text-slate-800 dark:text-slate-100 leading-tight">
               Safe Places
@@ -229,9 +273,11 @@ export const ToolsTab: React.FC<ToolsTabProps> = ({
         {/* Safety Score */}
         <button
           onClick={onOpenSafetyScore}
-          className="p-4 rounded-3xl bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 shadow-2xs hover:shadow-md transition-all text-left flex flex-col justify-between min-h-[115px] cursor-pointer active:scale-98"
+          className="p-4 rounded-3xl bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 shadow-2xs hover:shadow-md transition-all text-left flex flex-col justify-between min-h-[115px] cursor-pointer active:scale-98 group"
         >
-          <span className="text-2xl">📊</span>
+          <div className="w-9 h-9 rounded-2xl bg-gradient-to-tr from-cyan-500 to-blue-600 text-white flex items-center justify-center shadow-xs group-hover:scale-105 transition-transform">
+            <BarChart3 className="w-4 h-4" />
+          </div>
           <div>
             <h4 className="text-sm font-bold text-slate-800 dark:text-slate-100 leading-tight">
               Safety Score
@@ -245,9 +291,11 @@ export const ToolsTab: React.FC<ToolsTabProps> = ({
         {/* Fake Call */}
         <button
           onClick={onOpenFakeCall}
-          className="p-4 rounded-3xl bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 shadow-2xs hover:shadow-md transition-all text-left flex flex-col justify-between min-h-[115px] cursor-pointer active:scale-98"
+          className="p-4 rounded-3xl bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 shadow-2xs hover:shadow-md transition-all text-left flex flex-col justify-between min-h-[115px] cursor-pointer active:scale-98 group"
         >
-          <span className="text-2xl">📱</span>
+          <div className="w-9 h-9 rounded-2xl bg-gradient-to-tr from-purple-500 to-violet-600 text-white flex items-center justify-center shadow-xs group-hover:scale-105 transition-transform">
+            <PhoneCall className="w-4 h-4" />
+          </div>
           <div>
             <h4 className="text-sm font-bold text-slate-800 dark:text-slate-100 leading-tight">
               Fake Call
@@ -261,9 +309,11 @@ export const ToolsTab: React.FC<ToolsTabProps> = ({
         {/* Quick Exit Disguise */}
         <button
           onClick={onQuickExit}
-          className="p-4 rounded-3xl bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 shadow-2xs hover:shadow-md transition-all text-left flex flex-col justify-between min-h-[115px] cursor-pointer active:scale-98"
+          className="p-4 rounded-3xl bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 shadow-2xs hover:shadow-md transition-all text-left flex flex-col justify-between min-h-[115px] cursor-pointer active:scale-98 group"
         >
-          <span className="text-2xl">🚪</span>
+          <div className="w-9 h-9 rounded-2xl bg-gradient-to-tr from-slate-600 to-zinc-700 text-white flex items-center justify-center shadow-xs group-hover:scale-105 transition-transform">
+            <Calculator className="w-4 h-4" />
+          </div>
           <div>
             <h4 className="text-sm font-bold text-slate-800 dark:text-slate-100 leading-tight">
               Quick Exit
@@ -283,8 +333,10 @@ export const ToolsTab: React.FC<ToolsTabProps> = ({
           <div className="bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-100 w-full max-w-md rounded-3xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh] border border-slate-100 dark:border-slate-800 animate-fadeIn">
             {/* Header */}
             <div className="px-5 py-4 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between bg-gradient-to-r from-teal-50/60 to-blue-50/40 dark:from-slate-800 dark:to-slate-850">
-              <div className="flex items-center gap-2">
-                <span className="text-2xl">🏥</span>
+              <div className="flex items-center gap-2.5">
+                <div className="w-9 h-9 rounded-2xl bg-gradient-to-tr from-sky-500 to-cyan-600 text-white flex items-center justify-center shadow-xs shrink-0">
+                  <Building2 className="w-5 h-5" />
+                </div>
                 <div>
                   <h3 className="text-lg font-bold text-slate-800 dark:text-slate-100 leading-tight">
                     Safe Places Nearby

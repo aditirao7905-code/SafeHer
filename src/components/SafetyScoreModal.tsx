@@ -1,5 +1,5 @@
 import React from "react";
-import { CheckCircle2, AlertCircle, X, Shield, ArrowRight, ArrowLeft } from "lucide-react";
+import { CheckCircle2, AlertCircle, X, Shield, ArrowRight, ArrowLeft, BarChart3 } from "lucide-react";
 import { EmergencyContact } from "../types";
 
 interface SafetyScoreModalProps {
@@ -102,7 +102,9 @@ export const SafetyScoreModal: React.FC<SafetyScoreModalProps> = ({
               <ArrowLeft className="w-5 h-5" />
             </button>
             <div className="flex items-center gap-2.5">
-              <span className="text-2xl">📊</span>
+              <div className="w-8 h-8 rounded-xl bg-gradient-to-tr from-cyan-500 to-blue-600 text-white flex items-center justify-center shadow-xs shrink-0">
+                <BarChart3 className="w-4 h-4" />
+              </div>
               <div>
                 <div className="flex items-center gap-2">
                   <h3 className="text-base sm:text-lg font-black text-slate-800 dark:text-slate-100 leading-tight">

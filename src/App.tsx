@@ -156,6 +156,129 @@ export default function App() {
     });
   };
 
+  // Mobile Hardware & Gesture Back Button Handling (Prevents whole app from closing on back swipe)
+  const isClosingViaButtonRef = useRef(false);
+
+  const closeModalWithHistory = useCallback((closeCallback: () => void) => {
+    isClosingViaButtonRef.current = true;
+    closeCallback();
+    if (window.history.state?.safeher_modal) {
+      window.history.back();
+    }
+  }, []);
+
+  const isAssistantOpen = activeTab === "assistant";
+
+  const anyModalOpen =
+    isAssistantOpen ||
+    isSirenModalOpen ||
+    isIncidentModalOpen ||
+    isSafeRouteOpen ||
+    isSafetyScoreOpen ||
+    isLocationModalOpen ||
+    isBatteryModalOpen ||
+    isAboutSafeHerOpen ||
+    isFakeCallOpen ||
+    isQuickExitOpen ||
+    isDrawerOpen;
+
+  useEffect(() => {
+    if (!window.history.state?.safeher_root) {
+      window.history.replaceState({ safeher_root: true }, "");
+    }
+  }, []);
+
+  useEffect(() => {
+    if (anyModalOpen) {
+      if (!window.history.state?.safeher_modal) {
+        window.history.pushState({ safeher_modal: true }, "");
+      }
+    }
+  }, [anyModalOpen]);
+
+  useEffect(() => {
+    const handlePopState = () => {
+      if (isClosingViaButtonRef.current) {
+        isClosingViaButtonRef.current = false;
+        return;
+      }
+
+      // Close the open modal on phone back gesture / button
+      if (isSirenModalOpen) {
+        soundManager.stopSiren();
+        setIsSirenModalOpen(false);
+        setTriggeredByShake(false);
+        return;
+      }
+      if (isIncidentModalOpen) {
+        setIsIncidentModalOpen(false);
+        return;
+      }
+      if (isSafeRouteOpen) {
+        setIsSafeRouteOpen(false);
+        return;
+      }
+      if (isSafetyScoreOpen) {
+        setIsSafetyScoreOpen(false);
+        return;
+      }
+      if (isLocationModalOpen) {
+        setIsLocationModalOpen(false);
+        return;
+      }
+      if (isBatteryModalOpen) {
+        setIsBatteryModalOpen(false);
+        return;
+      }
+      if (isAboutSafeHerOpen) {
+        setIsAboutSafeHerOpen(false);
+        return;
+      }
+      if (isFakeCallOpen) {
+        setIsFakeCallOpen(false);
+        return;
+      }
+      if (isQuickExitOpen) {
+        setIsQuickExitOpen(false);
+        return;
+      }
+      if (isDrawerOpen) {
+        setIsDrawerOpen(false);
+        return;
+      }
+      if (activeTab === "assistant") {
+        setActiveTab("home");
+        return;
+      }
+
+      // Return to home tab if on another tab
+      if (activeTab !== "home") {
+        setActiveTab("home");
+        window.history.pushState({ safeher_root: true }, "");
+        return;
+      }
+
+      // Keep safeher_root state so the page does not pop out of the app
+      window.history.pushState({ safeher_root: true }, "");
+    };
+
+    window.addEventListener("popstate", handlePopState);
+    return () => window.removeEventListener("popstate", handlePopState);
+  }, [
+    isAssistantOpen,
+    isSirenModalOpen,
+    isIncidentModalOpen,
+    isSafeRouteOpen,
+    isSafetyScoreOpen,
+    isLocationModalOpen,
+    isBatteryModalOpen,
+    isAboutSafeHerOpen,
+    isFakeCallOpen,
+    isQuickExitOpen,
+    isDrawerOpen,
+    activeTab,
+  ]);
+
   // Geolocation fetcher
   const fetchLocation = useCallback(() => {
     if (!("geolocation" in navigator)) {
@@ -587,7 +710,7 @@ export default function App() {
             <div className="w-full max-w-md md:max-w-2xl lg:max-w-4xl mx-auto h-full flex flex-col bg-white dark:bg-slate-900 shadow-2xl relative md:border-x border-slate-100 dark:border-slate-800">
               <AssistantTab
                 location={location}
-                onBack={() => setActiveTab("home")}
+                onBack={() => closeModalWithHistory(() => setActiveTab("home"))}
               />
             </div>
           </div>
@@ -681,7 +804,7 @@ export default function App() {
         {/* Drawer Side Navigation */}
         <Drawer
           isOpen={isDrawerOpen}
-          onClose={() => setIsDrawerOpen(false)}
+          onClose={() => closeModalWithHistory(() => setIsDrawerOpen(false))}
           activeTab={activeTab}
           onSelectTab={(tab) => setActiveTab(tab)}
           onOpenIncidentModal={() => setIsIncidentModalOpen(true)}
@@ -698,21 +821,24 @@ export default function App() {
         {/* Modals & Overlays */}
         <FakeCallModal
           isOpen={isFakeCallOpen}
-          onClose={() => setIsFakeCallOpen(false)}
+          onClose={() => closeModalWithHistory(() => setIsFakeCallOpen(false))}
           callerName={contacts[0]?.name || "Mom ❤️"}
         />
 
         <QuickExitCalculator
           isOpen={isQuickExitOpen}
-          onExitDisguise={() => setIsQuickExitOpen(false)}
+          onExitDisguise={() => closeModalWithHistory(() => setIsQuickExitOpen(false))}
         />
 
         {/* Siren Modal: Silent SOS by default with direct call, WhatsApp, and SMS options */}
         <SirenModal
           isOpen={isSirenModalOpen}
           onClose={() => {
-            setIsSirenModalOpen(false);
-            setTriggeredByShake(false);
+            closeModalWithHistory(() => {
+              soundManager.stopSiren();
+              setIsSirenModalOpen(false);
+              setTriggeredByShake(false);
+            });
           }}
           location={location}
           batteryLevel={batteryLevel}
@@ -723,7 +849,7 @@ export default function App() {
 
         <SafeRouteModal
           isOpen={isSafeRouteOpen}
-          onClose={() => setIsSafeRouteOpen(false)}
+          onClose={() => closeModalWithHistory(() => setIsSafeRouteOpen(false))}
           userLat={location.latitude}
           userLng={location.longitude}
           contacts={contacts}
@@ -731,7 +857,7 @@ export default function App() {
 
         <SafetyScoreModal
           isOpen={isSafetyScoreOpen}
-          onClose={() => setIsSafetyScoreOpen(false)}
+          onClose={() => closeModalWithHistory(() => setIsSafetyScoreOpen(false))}
           contacts={contacts}
           hasLocation={!!location.latitude}
           isShakeEnabled={isShakeEnabled}
@@ -742,7 +868,7 @@ export default function App() {
 
         <IncidentReportModal
           isOpen={isIncidentModalOpen}
-          onClose={() => setIsIncidentModalOpen(false)}
+          onClose={() => closeModalWithHistory(() => setIsIncidentModalOpen(false))}
           reports={reports}
           onUpdateReports={setReports}
           currentLocationStr={
@@ -754,7 +880,7 @@ export default function App() {
 
         <LocationModal
           isOpen={isLocationModalOpen}
-          onClose={() => setIsLocationModalOpen(false)}
+          onClose={() => closeModalWithHistory(() => setIsLocationModalOpen(false))}
           location={location}
           onRefreshLocation={fetchLocation}
           batteryLevel={batteryLevel}
@@ -764,7 +890,7 @@ export default function App() {
         {/* Battery Monitor & Power Saver Modal */}
         <BatteryModal
           isOpen={isBatteryModalOpen}
-          onClose={() => setIsBatteryModalOpen(false)}
+          onClose={() => closeModalWithHistory(() => setIsBatteryModalOpen(false))}
           batteryLevel={batteryLevel}
           setBatteryLevel={setBatteryLevel}
           isBatterySaverOn={isBatterySaverOn}
@@ -774,7 +900,7 @@ export default function App() {
         {/* Full-Page About SafeHer & Privacy Policy */}
         <AboutSafeHerModal
           isOpen={isAboutSafeHerOpen}
-          onClose={() => setIsAboutSafeHerOpen(false)}
+          onClose={() => closeModalWithHistory(() => setIsAboutSafeHerOpen(false))}
         />
       </div>
     </div>

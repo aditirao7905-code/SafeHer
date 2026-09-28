@@ -286,15 +286,18 @@ ${evidenceText}
             >
               <ArrowLeft className="w-5 h-5" />
             </button>
-            <div>
-              <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2.5">
+              <div className="w-8 h-8 rounded-xl bg-gradient-to-tr from-teal-500 to-emerald-600 text-white flex items-center justify-center shadow-xs shrink-0">
+                <Video className="w-4 h-4" />
+              </div>
+              <div>
                 <h2 className="text-base sm:text-lg font-black text-slate-900 dark:text-white leading-tight">
                   Incident Report & Evidence
                 </h2>
+                <p className="text-[11px] text-slate-500 dark:text-slate-400">
+                  Save & delete verified photo, video & GPS evidence
+                </p>
               </div>
-              <p className="text-[11px] text-slate-500 dark:text-slate-400">
-                Save & delete verified photo, video & GPS evidence
-              </p>
             </div>
           </div>
 
