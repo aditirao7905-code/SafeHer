@@ -15,38 +15,29 @@ export const BottomNav: React.FC<BottomNavProps> = ({
   onSosTrigger,
 }) => {
   return (
-    <nav className="fixed bottom-0 left-0 right-0 z-40 bg-white/92 dark:bg-slate-900/92 backdrop-blur-xl border-t border-slate-200/80 dark:border-slate-800/80 shadow-[0_-8px_30px_rgba(0,0,0,0.06)] dark:shadow-[0_-8px_30px_rgba(0,0,0,0.35)] px-3 pt-2 pb-3 transition-colors">
+    <nav className="fixed bottom-0 left-0 right-0 z-40 bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl border-t border-slate-200/80 dark:border-slate-800/80 shadow-[0_-8px_30px_rgba(0,0,0,0.06)] dark:shadow-[0_-8px_30px_rgba(0,0,0,0.35)] px-3 pt-2.5 pb-3 transition-colors">
       <div className="w-full max-w-md md:max-w-2xl lg:max-w-4xl mx-auto flex items-center justify-around relative">
         {/* 1. Home */}
         <button
           onClick={() => onSelectTab("home")}
           className={`flex flex-col items-center justify-center min-w-[56px] py-0.5 cursor-pointer transition-all active:scale-95 group ${
             activeTab === "home"
-              ? "text-rose-600 dark:text-rose-400 font-bold"
-              : "text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 font-medium"
+              ? "text-rose-600 dark:text-rose-400 font-black"
+              : "text-slate-600 dark:text-slate-300 hover:text-rose-600 font-semibold"
           }`}
         >
           <div
-            className={`w-9 h-8 rounded-2xl flex items-center justify-center transition-all ${
+            className={`w-9 h-9 rounded-full flex items-center justify-center bg-gradient-to-tr from-rose-500 to-pink-500 text-white shadow-xs transition-all ${
               activeTab === "home"
-                ? "bg-gradient-to-tr from-rose-500 to-pink-500 text-white shadow-md shadow-rose-500/25 scale-105"
-                : "bg-rose-50/70 dark:bg-rose-950/40 text-rose-500/90 dark:text-rose-400/90 group-hover:scale-105 group-hover:bg-rose-100/70"
+                ? "scale-110 shadow-md shadow-rose-500/30 ring-2 ring-rose-400/50"
+                : "opacity-85 group-hover:opacity-100 group-hover:scale-105"
             }`}
           >
-            <Home
-              className={`w-4.5 h-4.5 transition-transform ${
-                activeTab === "home" ? "stroke-[2.5]" : "stroke-[2.1]"
-              }`}
-            />
+            <Home className="w-4.5 h-4.5 stroke-[2.5]" />
           </div>
-          <span className="text-[11px] tracking-tight mt-1 leading-none font-semibold">
+          <span className="text-[11px] tracking-tight mt-1 leading-none">
             Home
           </span>
-          {activeTab === "home" ? (
-            <span className="w-1.5 h-1.5 rounded-full bg-rose-500 mt-1 animate-pulse" />
-          ) : (
-            <span className="w-1.5 h-1.5 rounded-full bg-transparent mt-1" />
-          )}
         </button>
 
         {/* 2. Contacts */}
@@ -54,31 +45,22 @@ export const BottomNav: React.FC<BottomNavProps> = ({
           onClick={() => onSelectTab("contacts")}
           className={`flex flex-col items-center justify-center min-w-[56px] py-0.5 cursor-pointer transition-all active:scale-95 group ${
             activeTab === "contacts"
-              ? "text-indigo-600 dark:text-indigo-400 font-bold"
-              : "text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 font-medium"
+              ? "text-indigo-600 dark:text-indigo-400 font-black"
+              : "text-slate-600 dark:text-slate-300 hover:text-indigo-600 font-semibold"
           }`}
         >
           <div
-            className={`w-9 h-8 rounded-2xl flex items-center justify-center transition-all ${
+            className={`w-9 h-9 rounded-full flex items-center justify-center bg-gradient-to-tr from-indigo-500 to-purple-600 text-white shadow-xs transition-all ${
               activeTab === "contacts"
-                ? "bg-gradient-to-tr from-indigo-500 to-purple-600 text-white shadow-md shadow-indigo-500/25 scale-105"
-                : "bg-indigo-50/70 dark:bg-indigo-950/40 text-indigo-500/90 dark:text-indigo-400/90 group-hover:scale-105 group-hover:bg-indigo-100/70"
+                ? "scale-110 shadow-md shadow-indigo-500/30 ring-2 ring-indigo-400/50"
+                : "opacity-85 group-hover:opacity-100 group-hover:scale-105"
             }`}
           >
-            <Users
-              className={`w-4.5 h-4.5 transition-transform ${
-                activeTab === "contacts" ? "stroke-[2.5]" : "stroke-[2.1]"
-              }`}
-            />
+            <Users className="w-4.5 h-4.5 stroke-[2.5]" />
           </div>
-          <span className="text-[11px] tracking-tight mt-1 leading-none font-semibold">
+          <span className="text-[11px] tracking-tight mt-1 leading-none">
             Contacts
           </span>
-          {activeTab === "contacts" ? (
-            <span className="w-1.5 h-1.5 rounded-full bg-indigo-500 mt-1 animate-pulse" />
-          ) : (
-            <span className="w-1.5 h-1.5 rounded-full bg-transparent mt-1" />
-          )}
         </button>
 
         {/* 3. Central SOS Beacon */}
@@ -116,31 +98,22 @@ export const BottomNav: React.FC<BottomNavProps> = ({
           onClick={() => onSelectTab("tools")}
           className={`flex flex-col items-center justify-center min-w-[56px] py-0.5 cursor-pointer transition-all active:scale-95 group ${
             activeTab === "tools"
-              ? "text-sky-600 dark:text-sky-400 font-bold"
-              : "text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 font-medium"
+              ? "text-sky-600 dark:text-sky-400 font-black"
+              : "text-slate-600 dark:text-slate-300 hover:text-sky-600 font-semibold"
           }`}
         >
           <div
-            className={`w-9 h-8 rounded-2xl flex items-center justify-center transition-all ${
+            className={`w-9 h-9 rounded-full flex items-center justify-center bg-gradient-to-tr from-sky-500 to-blue-600 text-white shadow-xs transition-all ${
               activeTab === "tools"
-                ? "bg-gradient-to-tr from-sky-500 to-blue-600 text-white shadow-md shadow-sky-500/25 scale-105"
-                : "bg-sky-50/70 dark:bg-sky-950/40 text-sky-500/90 dark:text-sky-400/90 group-hover:scale-105 group-hover:bg-sky-100/70"
+                ? "scale-110 shadow-md shadow-sky-500/30 ring-2 ring-sky-400/50"
+                : "opacity-85 group-hover:opacity-100 group-hover:scale-105"
             }`}
           >
-            <Shield
-              className={`w-4.5 h-4.5 transition-transform ${
-                activeTab === "tools" ? "stroke-[2.5]" : "stroke-[2.1]"
-              }`}
-            />
+            <Shield className="w-4.5 h-4.5 stroke-[2.5]" />
           </div>
-          <span className="text-[11px] tracking-tight mt-1 leading-none font-semibold">
+          <span className="text-[11px] tracking-tight mt-1 leading-none">
             Tools
           </span>
-          {activeTab === "tools" ? (
-            <span className="w-1.5 h-1.5 rounded-full bg-sky-500 mt-1 animate-pulse" />
-          ) : (
-            <span className="w-1.5 h-1.5 rounded-full bg-transparent mt-1" />
-          )}
         </button>
 
         {/* 5. Assistant */}
@@ -148,27 +121,22 @@ export const BottomNav: React.FC<BottomNavProps> = ({
           onClick={() => onSelectTab("assistant")}
           className={`flex flex-col items-center justify-center min-w-[56px] py-0.5 cursor-pointer transition-all active:scale-95 group ${
             activeTab === "assistant"
-              ? "text-violet-600 dark:text-violet-400 font-bold"
-              : "text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 font-medium"
+              ? "text-violet-600 dark:text-violet-400 font-black"
+              : "text-slate-600 dark:text-slate-300 hover:text-violet-600 font-semibold"
           }`}
         >
           <div
-            className={`w-9 h-8 rounded-2xl flex items-center justify-center transition-all ${
+            className={`w-9 h-9 rounded-full flex items-center justify-center bg-gradient-to-tr from-violet-100 to-fuchsia-100 dark:bg-violet-950/70 border border-violet-200/80 dark:border-violet-800 shadow-xs transition-all ${
               activeTab === "assistant"
-                ? "bg-violet-100 dark:bg-violet-950/70 scale-110 shadow-xs border border-violet-300 dark:border-violet-700"
-                : "bg-violet-50/60 dark:bg-violet-950/30 group-hover:scale-105 group-hover:bg-violet-100/70"
+                ? "scale-110 shadow-md shadow-violet-500/20 ring-2 ring-violet-400/50"
+                : "opacity-85 group-hover:opacity-100 group-hover:scale-105"
             }`}
           >
             <SafeHerRobotAvatar size={24} />
           </div>
-          <span className="text-[11px] tracking-tight mt-1 leading-none font-semibold">
+          <span className="text-[11px] tracking-tight mt-1 leading-none">
             Assistant
           </span>
-          {activeTab === "assistant" ? (
-            <span className="w-1.5 h-1.5 rounded-full bg-violet-500 mt-1 animate-pulse" />
-          ) : (
-            <span className="w-1.5 h-1.5 rounded-full bg-transparent mt-1" />
-          )}
         </button>
       </div>
     </nav>
