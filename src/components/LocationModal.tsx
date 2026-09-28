@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { X, MapPin, Share2, ExternalLink, RefreshCw, Check, MessageSquare } from "lucide-react";
+import { X, MapPin, Share2, ExternalLink, RefreshCw, Check, MessageSquare, ArrowLeft } from "lucide-react";
 import { LocationInfo, EmergencyContact } from "../types";
 import { generateSosMessage, buildWhatsAppUrl, buildSmsUrl } from "../utils/helpers";
 
@@ -42,29 +42,43 @@ export const LocationModal: React.FC<LocationModalProps> = ({
   const smsUrl = buildSmsUrl(primaryContact?.phone, shareText);
 
   return (
-    <div className="fixed inset-0 z-50 bg-slate-900/70 backdrop-blur-xs flex items-center justify-center p-4 select-none">
-      <div className="bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-100 w-full max-w-md rounded-3xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh] border border-slate-100 dark:border-slate-800 animate-fadeIn">
-        {/* Header */}
-        <div className="px-5 py-4 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between bg-gradient-to-r from-teal-50/70 to-rose-50/40 dark:from-slate-800 dark:to-slate-850">
-          <div className="flex items-center gap-2">
-            <span className="text-2xl">📍</span>
-            <div>
-              <h3 className="text-lg font-black text-slate-800 dark:text-slate-100 leading-tight">My Live Location</h3>
-              <p className="text-[11px] font-medium text-slate-500 dark:text-slate-400">
-                High-precision GPS coordinates & map
-              </p>
+    <div className="fixed inset-0 z-50 bg-white dark:bg-slate-950 flex flex-col w-full h-full overflow-hidden select-none animate-fadeIn">
+      <div className="w-full max-w-2xl mx-auto h-full flex flex-col bg-white dark:bg-slate-900 md:border-x border-slate-100 dark:border-slate-800 shadow-2xl">
+        {/* Full-Page Top Header */}
+        <div className="shrink-0 px-4 py-3.5 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between bg-gradient-to-r from-teal-50/70 to-rose-50/40 dark:from-slate-800 dark:to-slate-900 shadow-2xs">
+          <div className="flex items-center gap-3">
+            <button
+              onClick={onClose}
+              className="p-2 -ml-1 rounded-2xl hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-800 dark:text-slate-100 cursor-pointer transition-colors"
+              title="Back"
+            >
+              <ArrowLeft className="w-5 h-5" />
+            </button>
+            <div className="flex items-center gap-2.5">
+              <span className="text-2xl">📍</span>
+              <div>
+                <div className="flex items-center gap-2">
+                  <h3 className="text-base sm:text-lg font-black text-slate-800 dark:text-slate-100 leading-tight">
+                    My Live GPS Location
+                  </h3>
+                </div>
+                <p className="text-[11px] font-medium text-slate-500 dark:text-slate-400">
+                  High-precision GPS coordinates, map & guardian dispatch
+                </p>
+              </div>
             </div>
           </div>
           <button
             onClick={onClose}
-            className="w-8 h-8 rounded-full bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 text-slate-500 flex items-center justify-center cursor-pointer"
+            className="p-2 rounded-2xl text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 cursor-pointer transition-colors"
+            title="Close"
           >
-            <X className="w-4 h-4" />
+            <X className="w-5 h-5" />
           </button>
         </div>
 
         {/* Content */}
-        <div className="p-5 overflow-y-auto space-y-4">
+        <div className="flex-1 overflow-y-auto p-5 space-y-4 pb-20">
           {/* Coordinates Card */}
           <div className="p-4 rounded-2xl bg-slate-50 dark:bg-slate-800 border border-slate-200/80 dark:border-slate-700 space-y-3">
             <div className="flex items-center justify-between">

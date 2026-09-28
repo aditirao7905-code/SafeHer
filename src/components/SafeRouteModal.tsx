@@ -272,91 +272,127 @@ export const SafeRouteModal: React.FC<SafeRouteModalProps> = ({
   // ----------------------------------------------------
   if (step === "dialog") {
     return (
-      <div className="fixed inset-0 z-50 bg-slate-900/75 backdrop-blur-xs flex items-center justify-center p-4 select-none animate-fadeIn">
-        <div className="bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-100 w-full max-w-sm rounded-3xl shadow-2xl p-6 border border-slate-100 dark:border-slate-800 flex flex-col gap-4">
-          {/* Header Title formatted exactly like the screenshot */}
-          <div>
-            <h3 className="text-base sm:text-lg font-bold text-slate-900 dark:text-slate-50 leading-snug flex items-center gap-2">
-              <span>🗺️</span>
-              <span>Enter your destination:</span>
-            </h3>
-            <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
-              (example: Hazratganj Lucknow or Baksi ka talab)
-            </p>
+      <div className="fixed inset-0 z-50 bg-white dark:bg-slate-950 flex flex-col w-full h-full overflow-hidden select-none animate-fadeIn">
+        <div className="w-full max-w-2xl mx-auto h-full flex flex-col bg-white dark:bg-slate-900 md:border-x border-slate-100 dark:border-slate-800 shadow-2xl">
+          {/* Full-Page Top Header */}
+          <div className="shrink-0 px-4 py-3.5 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between bg-gradient-to-r from-blue-50/70 via-emerald-50/40 to-teal-50/70 dark:from-slate-800 dark:to-slate-900 shadow-2xs">
+            <div className="flex items-center gap-3">
+              <button
+                onClick={onClose}
+                className="p-2 -ml-1 rounded-2xl hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-800 dark:text-slate-100 cursor-pointer transition-colors"
+                title="Back"
+              >
+                <ArrowRight className="w-5 h-5 rotate-180" />
+              </button>
+              <div>
+                <div className="flex items-center gap-2">
+                  <h2 className="text-base sm:text-lg font-black text-slate-900 dark:text-white leading-tight">
+                    Safe Route Navigation
+                  </h2>
+                </div>
+                <p className="text-[11px] text-slate-500 dark:text-slate-400">
+                  Live GPS route deviation & guardian alert protection
+                </p>
+              </div>
+            </div>
+
+            <button
+              onClick={onClose}
+              className="p-2 rounded-2xl text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 cursor-pointer transition-colors"
+              title="Close"
+            >
+              <X className="w-5 h-5" />
+            </button>
           </div>
 
-          {/* Destination Input with clean underline/border styling matching screenshot */}
-          <div className="relative mt-1">
-            <input
-              type="text"
-              autoFocus
-              value={destinationInput}
-              onChange={(e) => setDestinationInput(e.target.value)}
-              onKeyDown={(e) => {
-                if (e.key === "Enter") {
-                  handleConfirmDestination();
-                }
-              }}
-              placeholder="e.g. Baksi ka talab"
-              className="w-full text-base font-semibold text-slate-900 dark:text-slate-100 bg-transparent border-b-2 border-emerald-600 dark:border-emerald-500 py-2 px-1 outline-hidden transition-all focus:border-blue-600"
-            />
-          </div>
+          {/* Form Content */}
+          <div className="flex-1 overflow-y-auto px-5 py-6 space-y-5">
+            <div>
+              <h3 className="text-base sm:text-lg font-bold text-slate-900 dark:text-slate-50 leading-snug flex items-center gap-2">
+                <span>🗺️</span>
+                <span>Enter your destination:</span>
+              </h3>
+              <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
+                (example: Hazratganj Lucknow, Baksi ka talab, or railway station)
+              </p>
+            </div>
 
-          {/* Quick Click Suggestions */}
-          <div>
-            <span className="text-[11px] font-bold text-slate-400 dark:text-slate-500 block mb-1.5 uppercase tracking-wider">
-              Quick Suggestions:
-            </span>
-            <div className="flex flex-wrap gap-1.5">
-              {SUGGESTED_DESTINATIONS.map((place) => (
-                <button
-                  key={place}
-                  type="button"
-                  onClick={() => {
-                    setDestinationInput(place);
-                    handleConfirmDestination(place);
-                  }}
-                  className={`text-xs px-2.5 py-1 rounded-xl font-medium cursor-pointer transition-all border ${
-                    destinationInput.toLowerCase() === place.toLowerCase()
-                      ? "bg-emerald-50 border-emerald-300 text-emerald-800 dark:bg-emerald-950/40 dark:border-emerald-700 dark:text-emerald-300 font-bold"
-                      : "bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-100"
-                  }`}
-                >
-                  {place}
-                </button>
-              ))}
+            <div className="relative mt-2">
+              <input
+                type="text"
+                autoFocus
+                value={destinationInput}
+                onChange={(e) => setDestinationInput(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") {
+                    handleConfirmDestination();
+                  }
+                }}
+                placeholder="e.g. Baksi ka talab"
+                className="w-full text-base font-bold text-slate-900 dark:text-slate-100 bg-slate-50 dark:bg-slate-800 rounded-2xl border-2 border-emerald-500/70 p-4 outline-hidden transition-all focus:border-blue-600 focus:bg-white dark:focus:bg-slate-800"
+              />
+            </div>
+
+            {/* Quick Click Suggestions */}
+            <div>
+              <span className="text-xs font-bold text-slate-500 dark:text-slate-400 block mb-2 uppercase tracking-wider">
+                Quick Destination Suggestions:
+              </span>
+              <div className="flex flex-wrap gap-2">
+                {SUGGESTED_DESTINATIONS.map((place) => (
+                  <button
+                    key={place}
+                    type="button"
+                    onClick={() => {
+                      setDestinationInput(place);
+                      handleConfirmDestination(place);
+                    }}
+                    className={`text-xs px-3.5 py-2 rounded-2xl font-bold cursor-pointer transition-all border ${
+                      destinationInput.toLowerCase() === place.toLowerCase()
+                        ? "bg-emerald-600 border-emerald-600 text-white shadow-xs"
+                        : "bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 hover:bg-slate-100"
+                    }`}
+                  >
+                    📍 {place}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Current GPS Origin indicator */}
+            <div className="p-3.5 rounded-2xl bg-blue-50/70 dark:bg-blue-950/30 border border-blue-100 dark:border-blue-900/50 flex items-center gap-2.5 text-xs text-blue-700 dark:text-blue-300 font-medium">
+              <MapPin className="w-4 h-4 text-blue-600 shrink-0" />
+              <span>
+                Start Origin:{" "}
+                <strong className="font-bold">
+                  {userLat && userLng
+                    ? `Live GPS (${userLat.toFixed(4)}°N, ${userLng.toFixed(4)}°E)`
+                    : "Live GPS Locked"}
+                </strong>
+              </span>
+            </div>
+
+            <div className="p-4 rounded-3xl bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-900/50 text-xs text-amber-900 dark:text-amber-200 leading-relaxed">
+              🛡️ <strong>Deviation Protection:</strong> While traveling in a cab, auto, or walking, SafeHer monitors route deviation in real time. If the vehicle veers off path, you can broadcast an immediate live GPS alert to emergency contacts.
             </div>
           </div>
 
-          {/* Current GPS Origin indicator */}
-          <div className="p-2.5 rounded-2xl bg-blue-50/70 dark:bg-blue-950/30 border border-blue-100 dark:border-blue-900/50 flex items-center gap-2 text-[11px] text-blue-700 dark:text-blue-300 font-medium">
-            <MapPin className="w-3.5 h-3.5 text-blue-600 shrink-0" />
-            <span>
-              Start Origin:{" "}
-              <strong className="font-bold">
-                {userLat && userLng
-                  ? `Live GPS (${userLat.toFixed(4)}°N, ${userLng.toFixed(4)}°E)`
-                  : "Live GPS Locked"}
-              </strong>
-            </span>
-          </div>
-
-          {/* Dialog Action Buttons (CANCEL / OK styled matching screenshot) */}
-          <div className="flex items-center justify-end gap-4 mt-2 pt-2 border-t border-slate-100 dark:border-slate-800">
+          {/* Bottom Bar Actions */}
+          <div className="p-4 border-t border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 flex items-center justify-between gap-3 shrink-0">
             <button
               type="button"
               onClick={onClose}
-              className="text-emerald-700 dark:text-emerald-400 hover:text-emerald-800 font-black text-sm tracking-wider uppercase px-3 py-1.5 rounded-xl cursor-pointer hover:bg-emerald-50 dark:hover:bg-slate-800 transition-colors"
+              className="px-4 py-2.5 rounded-2xl text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 font-bold text-xs uppercase cursor-pointer"
             >
-              CANCEL
+              Cancel
             </button>
             <button
               type="button"
               onClick={() => handleConfirmDestination()}
               disabled={!destinationInput.trim()}
-              className="text-emerald-700 dark:text-emerald-400 hover:text-emerald-800 disabled:opacity-40 font-black text-sm tracking-wider uppercase px-4 py-1.5 rounded-xl cursor-pointer hover:bg-emerald-50 dark:hover:bg-slate-800 transition-colors"
+              className="px-6 py-3 rounded-2xl bg-emerald-600 hover:bg-emerald-700 disabled:opacity-40 font-black text-xs text-white uppercase tracking-wider cursor-pointer shadow-md transition-all active:scale-95"
             >
-              OK
+              Start Safe Route Tracking
             </button>
           </div>
         </div>
@@ -368,31 +404,43 @@ export const SafeRouteModal: React.FC<SafeRouteModalProps> = ({
   // STEP 2: LIVE SAFE ROUTE TRACKING SCREEN (Matching Screenshot 1)
   // ----------------------------------------------------
   return (
-    <div className="fixed inset-0 z-50 bg-slate-900/75 backdrop-blur-xs flex items-center justify-center p-3 sm:p-4 select-none animate-fadeIn">
-      <div className="bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-100 w-full max-w-md rounded-3xl shadow-2xl overflow-hidden flex flex-col max-h-[92vh] border border-slate-100 dark:border-slate-800">
-        {/* Header */}
-        <div className="px-5 py-3.5 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between bg-gradient-to-r from-blue-50/70 to-rose-50/40 dark:from-slate-800 dark:to-slate-850">
-          <div className="flex items-center gap-2.5">
-            <span className="text-2xl">🗺️</span>
-            <div>
-              <h3 className="text-lg font-black text-slate-900 dark:text-slate-50 leading-tight">
-                Safe Route
-              </h3>
-              <p className="text-[11px] font-semibold text-slate-500 dark:text-slate-400">
-                Blue = on route, red = off route deviation
-              </p>
+    <div className="fixed inset-0 z-50 bg-white dark:bg-slate-950 flex flex-col w-full h-full overflow-hidden select-none animate-fadeIn">
+      <div className="w-full max-w-2xl mx-auto h-full flex flex-col bg-white dark:bg-slate-900 md:border-x border-slate-100 dark:border-slate-800 shadow-2xl">
+        {/* Full-Page Top Header */}
+        <div className="shrink-0 px-4 py-3.5 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between bg-gradient-to-r from-blue-50/70 via-emerald-50/40 to-teal-50/70 dark:from-slate-800 dark:to-slate-900 shadow-2xs">
+          <div className="flex items-center gap-3">
+            <button
+              onClick={onClose}
+              className="p-2 -ml-1 rounded-2xl hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-800 dark:text-slate-100 cursor-pointer transition-colors"
+              title="Back"
+            >
+              <ArrowRight className="w-5 h-5 rotate-180" />
+            </button>
+            <div className="flex items-center gap-2.5">
+              <span className="text-2xl">🗺️</span>
+              <div>
+                <div className="flex items-center gap-2">
+                  <h3 className="text-base sm:text-lg font-black text-slate-900 dark:text-white leading-tight">
+                    Safe Route Tracking
+                  </h3>
+                </div>
+                <p className="text-[11px] font-semibold text-slate-500 dark:text-slate-400">
+                  Blue = on route, red = off route deviation
+                </p>
+              </div>
             </div>
           </div>
           <button
             onClick={onClose}
-            className="w-8 h-8 rounded-full bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 text-slate-500 flex items-center justify-center cursor-pointer transition-colors"
+            className="p-2 rounded-2xl text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 cursor-pointer transition-colors"
+            title="Close"
           >
-            <X className="w-4 h-4" />
+            <X className="w-5 h-5" />
           </button>
         </div>
 
         {/* Content */}
-        <div className="p-4 sm:p-5 overflow-y-auto space-y-3.5">
+        <div className="flex-1 overflow-y-auto p-4 sm:p-6 space-y-4">
           {/* Current Destination with Change button */}
           <div className="space-y-1.5">
             <div className="flex items-center justify-between">

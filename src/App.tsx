@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useCallback, useRef } from "react";
 import { Header } from "./components/Header";
-import { Drawer } from "./components/Drawer";
 import { BottomNav } from "./components/BottomNav";
 import { HomeTab } from "./components/HomeTab";
 import { ContactsTab } from "./components/ContactsTab";
@@ -15,6 +14,9 @@ import { SafetyScoreModal } from "./components/SafetyScoreModal";
 import { IncidentReportModal } from "./components/IncidentReportModal";
 import { LocationModal } from "./components/LocationModal";
 import { BatteryModal } from "./components/BatteryModal";
+import { AboutSafeHerModal } from "./components/AboutSafeHerModal";
+import { Drawer, DrawerUser } from "./components/Drawer";
+import { AuthLockScreen } from "./components/AuthLockScreen";
 import { ActiveTab, EmergencyContact, IncidentReport, LocationInfo, ThemeMode } from "./types";
 import {
   getSavedContacts,
@@ -37,7 +39,18 @@ export default function App() {
   const [isSafetyScoreOpen, setIsSafetyScoreOpen] = useState(false);
   const [isIncidentModalOpen, setIsIncidentModalOpen] = useState(false);
   const [isLocationModalOpen, setIsLocationModalOpen] = useState(false);
+  const [isAboutSafeHerOpen, setIsAboutSafeHerOpen] = useState(false);
   const [triggeredByShake, setTriggeredByShake] = useState(false);
+
+  // Language & Account State (with persistent language storage)
+  const [currentLanguage, setCurrentLanguage] = useState<string>(
+    () => localStorage.getItem("safeher_lang") || "english"
+  );
+  const [currentUser, setCurrentUser] = useState<DrawerUser>({
+    name: "Aditi Rao",
+    email: "aditirao7905@gmail.com",
+    isLoggedIn: true,
+  });
 
   // App Theme: default system / light / dark
   const [theme, setTheme] = useState<ThemeMode>(getSavedTheme);
@@ -114,6 +127,32 @@ export default function App() {
       if (prev === "system") return "light";
       if (prev === "light") return "dark";
       return "system";
+    });
+  };
+
+  const handleSelectLanguage = (lang: string) => {
+    setCurrentLanguage(lang);
+    localStorage.setItem("safeher_lang", lang);
+  };
+
+  const handleLogout = () => {
+    setCurrentUser((prev) => ({ ...prev, isLoggedIn: false }));
+    setIsDrawerOpen(false);
+  };
+
+  const handleLoginPrimary = () => {
+    setCurrentUser({
+      name: "Aditi Rao",
+      email: "aditirao7905@gmail.com",
+      isLoggedIn: true,
+    });
+  };
+
+  const handleLoginAnother = (name: string, email: string) => {
+    setCurrentUser({
+      name,
+      email,
+      isLoggedIn: true,
     });
   };
 
@@ -533,8 +572,17 @@ export default function App() {
           </div>
         )}
 
-        {/* Main Tab Content */}
-        {activeTab === "assistant" ? (
+        {/* Main App Content or Secure Lock Screen */}
+        {!currentUser.isLoggedIn ? (
+          <AuthLockScreen
+            onLoginPrimary={handleLoginPrimary}
+            onLoginAnother={handleLoginAnother}
+            onEmergencySos={() => {
+              setTriggeredByShake(false);
+              setIsSirenModalOpen(true);
+            }}
+          />
+        ) : activeTab === "assistant" ? (
           <div className="fixed inset-0 z-40 bg-slate-50 dark:bg-slate-950 flex flex-col overflow-hidden">
             <div className="w-full max-w-md md:max-w-2xl lg:max-w-4xl mx-auto h-full flex flex-col bg-white dark:bg-slate-900 shadow-2xl relative md:border-x border-slate-100 dark:border-slate-800">
               <AssistantTab
@@ -568,6 +616,7 @@ export default function App() {
                   isBatterySaverOn={isBatterySaverOn}
                   location={location}
                   safeStatusText={safeStatusText}
+                  currentLanguage={currentLanguage}
                 />
               )}
 
@@ -636,8 +685,14 @@ export default function App() {
           activeTab={activeTab}
           onSelectTab={(tab) => setActiveTab(tab)}
           onOpenIncidentModal={() => setIsIncidentModalOpen(true)}
+          onOpenAboutModal={() => setIsAboutSafeHerOpen(true)}
           theme={theme}
           onSetTheme={setTheme}
+          currentLanguage={currentLanguage}
+          onSelectLanguage={handleSelectLanguage}
+          currentUser={currentUser}
+          onLogout={handleLogout}
+          onLogin={handleLoginPrimary}
         />
 
         {/* Modals & Overlays */}
@@ -714,6 +769,12 @@ export default function App() {
           setBatteryLevel={setBatteryLevel}
           isBatterySaverOn={isBatterySaverOn}
           onToggleBatterySaver={() => setIsBatterySaverOn(!isBatterySaverOn)}
+        />
+
+        {/* Full-Page About SafeHer & Privacy Policy */}
+        <AboutSafeHerModal
+          isOpen={isAboutSafeHerOpen}
+          onClose={() => setIsAboutSafeHerOpen(false)}
         />
       </div>
     </div>

@@ -7,6 +7,7 @@ import {
   ShieldCheck,
   Power,
   X,
+  ArrowLeft,
   AlertTriangle,
   Radio,
   Sliders,
@@ -35,34 +36,49 @@ export const BatteryModal: React.FC<BatteryModalProps> = ({
   const isCritical = currentLevel <= 20;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-xs animate-fadeIn select-none">
-      <div className="w-full max-w-sm bg-white dark:bg-slate-900 rounded-3xl p-5 shadow-2xl border border-slate-100 dark:border-slate-800 space-y-4 animate-scaleUp">
-        {/* Header */}
-        <div className="flex items-center justify-between pb-2 border-b border-slate-100 dark:border-slate-800">
-          <div className="flex items-center gap-2">
-            <div className={`w-9 h-9 rounded-2xl flex items-center justify-center ${
-              isCritical
-                ? "bg-amber-100 dark:bg-amber-950/60 text-amber-600 dark:text-amber-400"
-                : "bg-emerald-100 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-400"
-            }`}>
-              {isCritical ? <BatteryWarning className="w-5 h-5" /> : <Battery className="w-5 h-5" />}
-            </div>
-            <div>
-              <h3 className="text-base font-black text-slate-800 dark:text-slate-100 leading-tight">
-                Battery Monitor & Saver
-              </h3>
-              <p className="text-[10px] text-slate-500 dark:text-slate-400 font-medium">
-                Emergency Power Optimization
-              </p>
+    <div className="fixed inset-0 z-50 bg-white dark:bg-slate-950 flex flex-col w-full h-full overflow-hidden select-none animate-fadeIn">
+      <div className="w-full max-w-2xl mx-auto h-full flex flex-col bg-white dark:bg-slate-900 md:border-x border-slate-100 dark:border-slate-800 shadow-2xl">
+        {/* Full-Page Top Header */}
+        <div className="shrink-0 px-4 py-3.5 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between bg-gradient-to-r from-emerald-50/70 to-amber-50/40 dark:from-slate-800 dark:to-slate-900 shadow-2xs">
+          <div className="flex items-center gap-3">
+            <button
+              onClick={onClose}
+              className="p-2 -ml-1 rounded-2xl hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-800 dark:text-slate-100 cursor-pointer transition-colors"
+              title="Back"
+            >
+              <ArrowLeft className="w-5 h-5" />
+            </button>
+            <div className="flex items-center gap-2.5">
+              <div className={`w-9 h-9 rounded-2xl flex items-center justify-center ${
+                isCritical
+                  ? "bg-amber-100 dark:bg-amber-950/60 text-amber-600 dark:text-amber-400"
+                  : "bg-emerald-100 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-400"
+              }`}>
+                {isCritical ? <BatteryWarning className="w-5 h-5" /> : <Battery className="w-5 h-5" />}
+              </div>
+              <div>
+                <div className="flex items-center gap-2">
+                  <h3 className="text-base sm:text-lg font-black text-slate-800 dark:text-slate-100 leading-tight">
+                    Battery Guardian & Power Saver
+                  </h3>
+                </div>
+                <p className="text-[11px] text-slate-500 dark:text-slate-400 font-medium">
+                  Emergency power management & automated 20% protection
+                </p>
+              </div>
             </div>
           </div>
           <button
             onClick={onClose}
-            className="w-8 h-8 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-500 hover:text-slate-800 dark:hover:text-slate-200 flex items-center justify-center cursor-pointer transition-colors"
+            className="p-2 rounded-2xl text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 cursor-pointer transition-colors"
+            title="Close"
           >
-            <X className="w-4 h-4" />
+            <X className="w-5 h-5" />
           </button>
         </div>
+
+        {/* Content */}
+        <div className="flex-1 overflow-y-auto p-5 space-y-4 pb-20">
 
         {/* Battery Level Visual Gauge */}
         <div className={`p-4 rounded-2xl border transition-all ${
@@ -202,13 +218,20 @@ export const BatteryModal: React.FC<BatteryModalProps> = ({
           </div>
         </div>
 
-        {/* Dismiss Button */}
-        <button
-          onClick={onClose}
-          className="w-full py-2.5 rounded-2xl bg-slate-900 hover:bg-black dark:bg-slate-800 dark:hover:bg-slate-700 text-white font-bold text-xs cursor-pointer transition-colors"
-        >
-          Close
-        </button>
+        </div>
+
+        {/* Bottom Bar Actions */}
+        <div className="p-4 border-t border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 flex items-center justify-between shrink-0">
+          <span className="text-[11px] text-slate-500 dark:text-slate-400 font-medium">
+            Threshold: Auto-powersave at 20%
+          </span>
+          <button
+            onClick={onClose}
+            className="px-5 py-2.5 rounded-2xl bg-slate-900 hover:bg-black dark:bg-slate-800 dark:hover:bg-slate-700 text-white font-bold text-xs cursor-pointer transition-colors"
+          >
+            Close Page
+          </button>
+        </div>
       </div>
     </div>
   );
